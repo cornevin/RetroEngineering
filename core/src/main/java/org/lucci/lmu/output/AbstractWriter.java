@@ -1,9 +1,9 @@
 package org.lucci.lmu.output;
 
+import org.lucci.lmu.domain.Model;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.lucci.lmu.domain.Model;
 
 /*
  * Created on Oct 3, 2004
@@ -16,11 +16,6 @@ public abstract class AbstractWriter
 {
 	public abstract byte[] writeModel(Model diagram)
 		throws WriterException;
-	
-
-
-
-    
     
 	static Map<String, AbstractWriter> factoryMap = new HashMap<String, AbstractWriter>();
 	

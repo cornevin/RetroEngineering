@@ -1,19 +1,10 @@
 package org.lucci.lmu.output;
 
+import org.lucci.lmu.domain.*;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import org.lucci.lmu.domain.AssociationRelation;
-import org.lucci.lmu.domain.Attribute;
-import org.lucci.lmu.domain.Entity;
-import org.lucci.lmu.domain.Group;
-import org.lucci.lmu.domain.InheritanceRelation;
-import org.lucci.lmu.domain.Model;
-import org.lucci.lmu.domain.ModelElement;
-import org.lucci.lmu.domain.Operation;
-import org.lucci.lmu.domain.Relation;
-import org.lucci.lmu.domain.Visibility;
 
 /*
  * Created on Oct 2, 2004
@@ -166,11 +157,6 @@ public class DotWriter extends AbstractWriter
 
 	for (Relation relation : model.getRelations())
 	{
-	    // c0 -> c1 [taillabel="1", label="come from", headlabel="1",
-	    // fontname="Helvetica", fontcolor="black", fontsize=10.0,
-	    // color="black", , arrowtail=ediamond];
-	    // System.out.println(relation);
-
 	    if (relation.getTailEntity().isVisible() && relation.getHeadEntity().isVisible())
 	    {
 		if (relation instanceof AssociationRelation)
