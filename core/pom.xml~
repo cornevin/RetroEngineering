@@ -11,7 +11,7 @@
 
   <parent>
       <artifactId>RetroIngineering</artifactId>
-      <groupId>fr.unice.polytech.si5.RetroIngineering</groupId>
+      <groupId>fr.unice.polytech.si5.retroIngineering</groupId>
       <version>1.0-SNAPSHOT</version>
   </parent>
 
