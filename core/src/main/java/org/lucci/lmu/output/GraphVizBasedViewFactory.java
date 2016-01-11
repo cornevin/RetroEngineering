@@ -1,6 +1,6 @@
 package org.lucci.lmu.output;
 
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 import toools.extern.Proces;
 
 import java.util.Arrays;

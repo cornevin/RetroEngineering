@@ -6,20 +6,15 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
-import org.lucci.lmu.Entities;
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.gui.ClassDiagramViewer;
 import org.lucci.lmu.output.GraphVizBasedViewFactory;
 import org.lucci.lmu.output.WriterException;
-
-import toools.io.FileUtilities;
 
 /*
  * Created on Oct 4, 2004

@@ -3,7 +3,7 @@ package org.lucci.lmu.output;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 
 /*
  * Created on Oct 3, 2004

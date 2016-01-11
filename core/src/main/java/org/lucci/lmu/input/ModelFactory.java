@@ -1,6 +1,6 @@
 package org.lucci.lmu.input;
 
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 
 import java.util.HashMap;
 import java.util.Map;

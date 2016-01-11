@@ -1,4 +1,4 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
 
 import toools.util.assertion.Assertions;
 

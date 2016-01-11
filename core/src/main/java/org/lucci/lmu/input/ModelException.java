@@ -3,7 +3,7 @@ package org.lucci.lmu.input;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.lucci.lmu.NamedModelElement;
+import org.lucci.lmu.domain.NamedModelElement;
 
 /*
  * Created on Oct 3, 2004

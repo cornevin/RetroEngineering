@@ -6,7 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.gui.ClassDiagramViewer;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.WriterException;

@@ -1,4 +1,7 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
+
+import org.lucci.lmu.domain.Entity;
+import org.lucci.lmu.domain.NamedModelElement;
 
 import java.util.Collection;
 import java.util.HashSet;

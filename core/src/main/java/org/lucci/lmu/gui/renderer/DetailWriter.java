@@ -1,8 +1,8 @@
 package org.lucci.lmu.gui.renderer;
 
-import org.lucci.lmu.Entities;
-import org.lucci.lmu.Entity;
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Entities;
+import org.lucci.lmu.domain.Entity;
+import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.WriterException;
 

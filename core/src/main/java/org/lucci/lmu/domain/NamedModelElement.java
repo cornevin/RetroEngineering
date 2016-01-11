@@ -1,4 +1,4 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
 
 import java.util.Collections;
 import java.util.Comparator;

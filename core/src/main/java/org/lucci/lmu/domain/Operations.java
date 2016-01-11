@@ -1,4 +1,8 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
+
+import org.lucci.lmu.domain.Entity;
+import org.lucci.lmu.domain.ModelElement;
+import org.lucci.lmu.domain.Operation;
 
 import java.util.Collection;
 import java.util.Iterator;

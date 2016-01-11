@@ -1,6 +1,6 @@
 package org.lucci.lmu.input;
 
-import org.lucci.lmu.*;
+import org.lucci.lmu.domain.*;
 import toools.collections.Collections;
 import toools.io.file.RegularFile;
 import toools.text.TextUtilities;

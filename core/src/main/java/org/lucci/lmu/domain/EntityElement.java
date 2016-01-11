@@ -1,4 +1,4 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
 
 /*
  * Created on Oct 28, 2004

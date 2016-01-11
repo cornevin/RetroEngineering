@@ -1,6 +1,6 @@
 package org.lucci.lmu.gui;
 
-import org.lucci.lmu.Model;
+import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.gui.renderer.PDFRenderer;
 import org.lucci.lmu.input.LmuException;
 import org.lucci.lmu.input.LmuParser;

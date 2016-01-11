@@ -1,13 +1,12 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
+import org.lucci.lmu.domain.*;
 import toools.collections.Collections;
 import toools.collections.Filter;
 

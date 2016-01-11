@@ -1,21 +1,13 @@
-package org.lucci.lmu;
+package org.lucci.lmu.domain;
 
-import java.util.ArrayList;
+import org.lucci.lmu.input.ModelException;
+import toools.collections.Collections;
+import toools.math.relation.HashRelation;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
-import java.util.Vector;
-
-
-
-import org.lucci.lmu.input.ModelException;
-
-import toools.collections.Collections;
-import toools.collections.Filter;
-import toools.math.relation.HashRelation;
 
 /*
  * Created on Oct 10, 2004
@@ -135,9 +127,9 @@ public class Entities
 		return new HashSet<Entity>(Collections.filter(entities, new Filters.VisiblityFilter(Visibility.PUBLIC)));
 	}
 
-	public static Collection<org.lucci.lmu.Relation> removeEntities(Collection<Entity> entitiesToRemove, Model model)
+	public static Collection<Relation> removeEntities(Collection<Entity> entitiesToRemove, Model model)
 	{
-		Collection<org.lucci.lmu.Relation> removed = new HashSet<org.lucci.lmu.Relation>();
+		Collection<Relation> removed = new HashSet<Relation>();
 
 		for (Entity entity : entitiesToRemove)
 		{
@@ -150,9 +142,9 @@ public class Entities
 	public static Collection<Entity> getNeighborEntities(Entity entity, Model model)
 	{
 		Collection<Entity> neighbors = new HashSet<Entity>();
-		Collection<org.lucci.lmu.Relation> relations = Relations.findRelationsInvolving(entity, model.getRelations());
+		Collection<Relation> relations = Relations.findRelationsInvolving(entity, model.getRelations());
 
-		for (org.lucci.lmu.Relation relation : relations)
+		for (Relation relation : relations)
 		{
 			neighbors.add(relation.getTailEntity() == entity ? relation.getHeadEntity() : relation.getTailEntity());
 		}
