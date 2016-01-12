@@ -1,6 +1,5 @@
 package org.lucci.lmu.test;
 
-import org.apache.logging.log4j.core.util.FileUtils;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
