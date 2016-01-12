@@ -4,6 +4,7 @@ import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.input.JarFileAnalyser;
+import org.lucci.lmu.input.ModelException;
 import org.lucci.lmu.input.ParseError;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.WriterException;
@@ -17,18 +18,22 @@ public class Test {
 		URL url = Thread.currentThread().getContextClassLoader().getResource("jfig.jar");
 		File file = new File(url.getPath());
 
-		Model model = new JarFileAnalyser().createModel(file);
-		Entity e = Entities.findEntityByName(model, "ConsoleMessage");
-
-		// Try to write the output
-		AbstractWriter writer = AbstractWriter.getTextFactory("png");
 		try {
+			Model model = new JarFileAnalyser().createModel(file);
+			Entity e = Entities.findEntityByName(model, "ConsoleMessage");
+
+			// Try to write the output
+			AbstractWriter writer = AbstractWriter.getTextFactory("png");
+
 			writer.writeModel(model);
+
+            System.out.println("Entites : " + e.getName());
+            System.out.println("Attributes : " + e.getAttributes());
+
+		} catch (ModelException e) {
+			e.printStackTrace();
 		} catch (WriterException ex){
 			ex.printStackTrace();
 		}
-
-		System.out.println("Entites : " + e.getName());
-		System.out.println("Attributes : " + e.getAttributes());
 	}
 }
