@@ -35,8 +35,7 @@ public class JarFileAnalyser extends ModelFactory
 	}
 
 	@Override
-		public Model createModel(byte[] data) throws ParseError
-	{
+	public Model createModel(byte[] data) throws ParseError {
 		Model model = new Model();
 		primitiveMap.put(void.class, Entities.findEntityByName(model, "void"));
 		primitiveMap.put(int.class, Entities.findEntityByName(model, "int"));
@@ -101,8 +100,7 @@ public class JarFileAnalyser extends ModelFactory
 		return model;
 	}
 
-	protected static Class<?> createClassNamed(String fullName)
-	{
+	protected static Class<?> createClassNamed(String fullName) {
 		ClassName cn = Clazz.getClassName(fullName);
 		String src = "";
 
@@ -128,13 +126,11 @@ public class JarFileAnalyser extends ModelFactory
 		return c.getName().substring(c.getName().lastIndexOf('.') + 1);
 	}
 
-	public String computeEntityNamespace(Class<?> c)
-	{
+	public String computeEntityNamespace(Class<?> c) {
 		return c.getPackage() == null ? Entity.DEFAULT_NAMESPACE : c.getPackage().getName();
 	}
 
-	private void fillModel(Model model)
-	{
+	private void fillModel(Model model) {
 		for (Entity entity : new HashSet<Entity>(model.getEntities()))
 		{
 			if (!entity.isPrimitive())
@@ -147,8 +143,7 @@ public class JarFileAnalyser extends ModelFactory
 		}
 	}
 
-	private void initInheritance(Class<?> clazz, Entity entity, Model model)
-	{
+	private void initInheritance(Class<?> clazz, Entity entity, Model model) {
 		// this collection will store the super class and super interfaces for
 		// the given class
 		Set<Class<?>> supers = new HashSet<Class<?>>();
@@ -175,8 +170,7 @@ public class JarFileAnalyser extends ModelFactory
 		}
 	}
 
-	private void initAttributes(Class<?> clazz, Entity entity, Model model)
-	{
+	private void initAttributes(Class<?> clazz, Entity entity, Model model) {
 		System.out.println(clazz);
 		System.out.println(clazz.getClassLoader().getClass());
 
