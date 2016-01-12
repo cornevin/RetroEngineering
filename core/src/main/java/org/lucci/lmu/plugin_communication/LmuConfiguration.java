@@ -48,7 +48,7 @@ public class LmuConfiguration {
             AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
             if (writer instanceof GraphVizBasedViewFactory) {
                 System.out.println("Start writing model");
-                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
+                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + "/" + outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
                 System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType() + "\'");
             }
         } catch (ModelException | ParseError | IOException | WriterException e) {
