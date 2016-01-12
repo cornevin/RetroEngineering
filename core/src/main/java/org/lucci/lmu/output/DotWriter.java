@@ -123,14 +123,12 @@ public class DotWriter extends AbstractWriter {
                         }
                     }
                 }
-
                 buf.append((isRecord ? "}" : "") + "\"];");
             } else {
                 buf.append(", label=\"" + (entity.isAbsract() ? "&lt;&lt;abstract&gt;&gt;\\n" : "") + entity.getName());
 
                 buf.append("\"];");
             }
-
         }
 
         for (Relation relation : model.getRelations()) {

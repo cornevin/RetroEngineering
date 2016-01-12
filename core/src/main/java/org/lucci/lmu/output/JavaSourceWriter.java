@@ -106,16 +106,17 @@ public class JavaSourceWriter extends AbstractWriter {
 
 	private String getJavaType(String t) {
 		// TODO replace if else by switch case
-		if (t.equals("string")) {
-			return "String";
-		} else if (t.equals("set")) {
-			return "java.util.Set";
-		} else if (t.equals("sequence")) {
-			return "java.util.List";
-		} else if (t.equals("class")) {
-			return "Class";
-		} else {
-			return t;
+		switch (t) {
+			case "string":
+				return "String";
+			case "set":
+				return "java.util.Set";
+			case "sequence":
+				return "java.util.List";
+			case "class":
+				return "Class";
+			default:
+				return t;
 		}
 	}
 }

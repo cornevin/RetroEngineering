@@ -1,14 +1,15 @@
 package org.lucci.lmu.test;
 
+import org.apache.logging.log4j.core.util.FileUtils;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.input.ModelException;
 import org.lucci.lmu.input.ParseError;
-import org.lucci.lmu.output.AbstractWriter;
-import org.lucci.lmu.output.GraphVizBasedViewFactory;
-import org.lucci.lmu.output.WriterException;
+import org.lucci.lmu.output.*;
+import toools.io.FileUtilities;
+import toools.io.file.Directory;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +33,15 @@ public class Test {
 		try {
             if (writer instanceof GraphVizBasedViewFactory){
                 System.out.println("Start writing model");
-                writer.writeModel(model);
+                //System.out.println(Directory.getCurrentDirectory());
+                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory()+"/output.jpeg"), writer.writeModel(model));
                 System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType()+"\'");
+            } else if (writer instanceof JavaSourceWriter){
+                System.out.println("Start writing model");
+                System.out.println(writer.writeModel(model));
+                System.out.println("Output generated with format \'java\'");
+            } else if (writer instanceof DotWriter){
+
             }
 
 		} catch (WriterException ex){
