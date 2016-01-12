@@ -20,6 +20,7 @@ public class Test {
 		Model model = new JarFileAnalyser().createModel(file);
 		Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 
+		// Try to write the output
 		AbstractWriter writer = AbstractWriter.getTextFactory("png");
 		try {
 			writer.writeModel(model);
