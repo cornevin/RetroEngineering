@@ -12,10 +12,8 @@ import java.util.Map;
 /**
  * @author luc.hogie
  */
-public abstract class AbstractWriter
-{
-	public abstract byte[] writeModel(Model diagram)
-		throws WriterException;
+public abstract class AbstractWriter {
+	public abstract byte[] writeModel(Model diagram) throws WriterException;
     
 	static Map<String, AbstractWriter> factoryMap = new HashMap<String, AbstractWriter>();
 	
@@ -37,6 +35,7 @@ public abstract class AbstractWriter
 	    
 	    if (f == null)
 	    {
+			// TODO if f is null so type is type is not define for GraphVizBasedViewFactory
             return new GraphVizBasedViewFactory(type);
 	    }
 	    else
