@@ -15,10 +15,9 @@ import java.util.Map;
 public abstract class AbstractWriter {
 	public abstract byte[] writeModel(Model diagram) throws WriterException;
     
-	static Map<String, AbstractWriter> factoryMap = new HashMap<String, AbstractWriter>();
+	static Map<String, AbstractWriter> factoryMap = new HashMap<>();
 	
-	static
-	{
+	static {
         factoryMap.put(null, new LmuWriter());
 		factoryMap.put("lmu", new LmuWriter());
 		factoryMap.put("dot", new DotWriter());
@@ -29,17 +28,13 @@ public abstract class AbstractWriter {
 		factoryMap.put("svg", new GraphVizBasedViewFactory("svg"));
 	}
 
-	public static AbstractWriter getTextFactory(String type)
-	{
+	public static AbstractWriter getTextFactory(String type) {
 	    AbstractWriter f = factoryMap.get(type);
 	    
-	    if (f == null)
-	    {
+	    if (f == null) {
 			// TODO if f is null so type is type is not define for GraphVizBasedViewFactory
             return new GraphVizBasedViewFactory(type);
-	    }
-	    else
-	    {
+	    } else {
 	        return f;
 	    }
 	}

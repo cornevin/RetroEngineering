@@ -2,6 +2,7 @@ package org.lucci.lmu.output;
 
 import org.lucci.lmu.domain.Model;
 import toools.extern.Proces;
+import toools.io.file.Directory;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,19 +26,24 @@ public class GraphVizBasedViewFactory extends AbstractWriter {
     
 
 	public GraphVizBasedViewFactory(String type) {
-		// TODO Check if type is in supportedOutputTypes
-		this.outputType = type;
+        if (supportedOutputTypes.contains(type)) {
+            this.outputType = type;
+        } else {
+            this.outputType = "jpeg";
+        }
+
 	}
 
 	@Override
 	public byte[] writeModel(Model model) throws WriterException {
 		DotWriter dotTextFactory = new DotWriter();
 		byte[] dotText = dotTextFactory.writeModel(model);
-		return Proces.exec("dot", dotText, "-T" + getOutputType());
+        // TODO find where file is generated
+        System.out.println(Directory.getCurrentDirectory());
+        return Proces.exec("dot", dotText, "-T" + getOutputType());
 	}
 
-	public String getOutputType()
-	{
+	public String getOutputType() {
 		return outputType;
 	}
 }

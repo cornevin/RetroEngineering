@@ -6,6 +6,7 @@ import org.lucci.lmu.domain.Model;
 import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.input.ParseError;
 import org.lucci.lmu.output.AbstractWriter;
+import org.lucci.lmu.output.GraphVizBasedViewFactory;
 import org.lucci.lmu.output.WriterException;
 
 import java.io.File;
@@ -21,14 +22,19 @@ public class Test {
 		Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 
 		// Try to write the output
-		AbstractWriter writer = AbstractWriter.getTextFactory("png");
+		AbstractWriter writer = AbstractWriter.getTextFactory("jpeg");
 		try {
-			writer.writeModel(model);
+            if (writer instanceof GraphVizBasedViewFactory){
+                System.out.println("Start writing model");
+                writer.writeModel(model);
+                System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType()+"\'");
+            }
+
 		} catch (WriterException ex){
 			ex.printStackTrace();
 		}
 
-		System.out.println("Entites : " + e.getName());
+		System.out.println("Entities : " + e.getName());
 		System.out.println("Attributes : " + e.getAttributes());
 	}
 }
