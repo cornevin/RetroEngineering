@@ -20,9 +20,6 @@ import java.util.*;
  * @author luc.hogie
  */
 public class JarFileAnalyser extends ModelCreator {
-//	private Collection<RegularFile> knownJarFiles = new HashSet<RegularFile>();
-//	private Map<Class<?>, Entity> primitiveMap = new HashMap<Class<?>, Entity>();
-//	private Map<Entity, Class<?>> entity_class = new HashMap<Entity, Class<?>>();
 
 	public JarFileAnalyser() {
 		this.knownJarFiles = new HashSet<RegularFile>();
