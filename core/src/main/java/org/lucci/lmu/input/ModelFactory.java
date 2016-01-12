@@ -1,7 +1,5 @@
 package org.lucci.lmu.input;
 
-import org.lucci.lmu.domain.Model;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +16,7 @@ import java.util.Map;
 public abstract class ModelFactory
 {
 
-	static private Map<String, ModelFactory> factoryMap = new HashMap<String, ModelFactory>();
+	static private Map<String, ModelCreator> factoryMap = new HashMap<String, ModelCreator>();
 
 	static
 	{
@@ -28,10 +26,8 @@ public abstract class ModelFactory
 		factoryMap.put("nothing", new FolderAnalyser());
 	}
 
-	public static ModelFactory getModelFactory(String type)
+	public static ModelCreator getModelFactory(String type)
 	{
 		return factoryMap.get(type);
 	}
-
-	public abstract Model createModel(byte[] data) throws ParseError, ModelException;
 }

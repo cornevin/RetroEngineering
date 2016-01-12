@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * @author luc.hogie
  */
-public class JarFileAnalyser extends ModelFactory
+public class JarFileAnalyser extends ModelCreator
 {
 	private Collection<RegularFile> knownJarFiles = new HashSet<RegularFile>();
 	private Map<Class<?>, Entity> primitiveMap = new HashMap<Class<?>, Entity>();

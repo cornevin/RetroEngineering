@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class FolderAnalyser extends ModelFactory {
+public class FolderAnalyser extends ModelCreator {
     private Collection<RegularFile> knownJarFiles = new HashSet<RegularFile>();
     private Map<Class<?>, Entity> primitiveMap = new HashMap<Class<?>, Entity>();
     private Map<Entity, Class<?>> entity_class = new HashMap<Entity, Class<?>>();

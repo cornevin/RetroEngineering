@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class LmuParser extends ModelFactory
+public class LmuParser extends ModelCreator
 {
     private final static LmuParser parser = new LmuParser();
 
@@ -728,21 +728,21 @@ public class LmuParser extends ModelFactory
 		    {
 			//syntax("File name has not extension, which is required to guess its content type: "
 			//	+ file.getPath());
-                ModelFactory modelFactory = ModelFactory.getModelFactory("nothing");
+                ModelCreator modelCreator = ModelFactory.getModelFactory("nothing");
                 String folderPath = file.getPath();
 				System.out.println(folderPath);
 				byte[] b = folderPath.getBytes(StandardCharsets.UTF_8);
 
 
-                modelFactory.createModel(b);
+                modelCreator.createModel(b);
 
             }
 		    else
 		    {
 			// HERE
-			ModelFactory modelFactory = ModelFactory.getModelFactory(fileExtension.toLowerCase());
+			ModelCreator modelCreator = ModelFactory.getModelFactory(fileExtension.toLowerCase());
 
-			if (modelFactory == null)
+			if (modelCreator == null)
 			{
 			    syntax(file.getPath() + ": dunno what to do with files extension " + fileExtension);
 			}
@@ -754,7 +754,7 @@ public class LmuParser extends ModelFactory
 			    {
 				try
 				{
-				    newModel = modelFactory.createModel(file.getContent());
+				    newModel = modelCreator.createModel(file.getContent());
 				    model.merge(newModel);
 				    modelCache.put(file, newModel);
 				}
