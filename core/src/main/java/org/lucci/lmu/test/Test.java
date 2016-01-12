@@ -29,21 +29,18 @@ public class Test {
         Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 
 		// Try to write the output
-		AbstractWriter writer = AbstractWriter.getTextFactory("jpeg");
+		AbstractWriter writer = AbstractWriter.getTextFactory("pdf");
 		try {
             if (writer instanceof GraphVizBasedViewFactory){
                 System.out.println("Start writing model");
                 //System.out.println(Directory.getCurrentDirectory());
-                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory()+"/output.jpeg"), writer.writeModel(model));
+                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory()+"/output."+((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
                 System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType()+"\'");
             } else if (writer instanceof JavaSourceWriter){
                 System.out.println("Start writing model");
                 System.out.println(writer.writeModel(model));
                 System.out.println("Output generated with format \'java\'");
-            } else if (writer instanceof DotWriter){
-
             }
-
 		} catch (WriterException ex){
 			ex.printStackTrace();
 		}

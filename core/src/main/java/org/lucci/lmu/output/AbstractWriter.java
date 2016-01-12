@@ -27,6 +27,7 @@ public abstract class AbstractWriter {
 		factoryMap.put("png", new GraphVizBasedViewFactory("png"));
 		factoryMap.put("fig", new GraphVizBasedViewFactory("fig"));
 		factoryMap.put("svg", new GraphVizBasedViewFactory("svg"));
+		factoryMap.put("pdf", new GraphVizBasedViewFactory("pdf"));
 	}
 
 	public static AbstractWriter getTextFactory(String type) {

@@ -22,7 +22,7 @@ public class GraphVizBasedViewFactory extends AbstractWriter {
 					"fig", "gd", "gd2", "gif", "hpgl", "imap", "cmapx",
 					"ismap", "jpg", "jpeg", "mif", "mp", "pcl", "pic", "plain",
 					"plain-ext", "png", "ps", "ps2", "svg", "svgz", "vrml",
-					"vtx", "wbmp");
+					"vtx", "wbmp", "pdf");
     
 
 	public GraphVizBasedViewFactory(String type) {

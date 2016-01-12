@@ -41,10 +41,8 @@ public class NamedModelElement extends ModelElement
         this.name = name;
     }
 
-    public static void sortByName(List<NamedModelElement> parms)
-    {
-        Collections.sort(parms, new Comparator<NamedModelElement>()
-        {
+    public static void sortByName(List<NamedModelElement> parms) {
+        Collections.sort(parms, new Comparator<NamedModelElement>() {
             public int compare(NamedModelElement e1, NamedModelElement e2)
             {
                 return e1.getName().compareToIgnoreCase(e2.getName());
