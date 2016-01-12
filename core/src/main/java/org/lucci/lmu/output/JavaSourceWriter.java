@@ -19,14 +19,12 @@ import org.lucci.lmu.domain.Visibility;
 /**
  * @author luc.hogie
  */
-public class JavaSourceWriter extends AbstractWriter
-{	
+public class JavaSourceWriter extends AbstractWriter {
 	
 	/* (non-Javadoc)
 	 * @see org.lucci.lmu.ViewFactory#createViewData(org.lucci.lmu.model.ClassDiagram)
 	 */
-	public byte[] writeModel(Model model) throws WriterException
-	{
+	public byte[] writeModel(Model model) throws WriterException {
 		String source = "";
 		Collection<Entity> entities = ModelElement.findVisibleModelElements(model.getEntities());
 //		Collections.sort(entities, new Comparator<Entity>()
@@ -37,32 +35,25 @@ public class JavaSourceWriter extends AbstractWriter
 //					}
 //				});
 
-		for (Entity entity : entities)
-		{
+		for (Entity entity : entities) {
 			source += getJavaSource(entity) + "\n\n";
 		}
 		
 		return source.getBytes();
 	}
 
-	public String getJavaSource(Entity entity)
-		throws WriterException
-	{
+	public String getJavaSource(Entity entity) throws WriterException {
 		String source = "";
 		
 		source += "\nclass " + entity.getName() + "\n{";
 		Iterator attributeIterator = entity.getAttributes().iterator();
 		
-		while (attributeIterator.hasNext())
-		{
+		while (attributeIterator.hasNext()) {
 			Attribute attribute = (Attribute) attributeIterator.next();
 			
-			if (attribute.getType() == null)
-			{
+			if (attribute.getType() == null) {
 				throw new WriterException("type for attribute " + entity.getName() + "#" + attribute.getName() + " is undefined");
-			}
-			else
-			{
+			} else {
 				source += "\n\t" + getJavaVisibility(attribute.getVisibility())
 					+ " " + getJavaType(attribute.getType().getName())
 					+ " " + attribute.getName() + ";";
@@ -71,29 +62,23 @@ public class JavaSourceWriter extends AbstractWriter
 
 		Iterator operationIterator = entity.getOperations().iterator();
 		
-		while (operationIterator.hasNext())
-		{
+		while (operationIterator.hasNext()) {
 			Operation operation = (Operation) operationIterator.next();
 			
-			if (operation.getType() == null)
-			{
+			if (operation.getType() == null) {
 				throw new WriterException("type for operation " + entity.getName() + "#" + operation.getName() + " is undefined");
-			}
-			else
-			{
+			} else {
 				source += "\n\t " + getJavaVisibility(operation.getVisibility())
 					+ " " + getJavaType(operation.getType().getName()) + " "
 					+ operation.getName() + "(";
 			
 				Iterator<Entity> parameterIterator = operation.getParameterList().iterator();
 				
-				while (parameterIterator.hasNext())
-				{
+				while (parameterIterator.hasNext()) {
 					Entity parm = parameterIterator.next();
 					source += parm.getName();
 					
-					if (parameterIterator.hasNext())
-					{
+					if (parameterIterator.hasNext()) {
 						source += ", ";
 					}
 				}				
@@ -106,47 +91,30 @@ public class JavaSourceWriter extends AbstractWriter
 		return source;
 	}
 	
-	private String getJavaVisibility(Visibility v)
-	{
-		if (v == Visibility.PUBLIC)
-		{
+	private String getJavaVisibility(Visibility v) {
+		if (v == Visibility.PUBLIC) {
 			return "public";
-		}
-		else if (v == Visibility.PROTECTED)
-		{
+		} else if (v == Visibility.PROTECTED) {
 			return "protected";
-		}
-		else if (v == Visibility.PRIVATE)
-		{
+		} else if (v == Visibility.PRIVATE) {
 			return "private";
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("unknow visilibity " + v);
 		}
 	}
 
 
-	private String getJavaType(String t)
-	{
-		if (t.equals("string"))
-		{
+	private String getJavaType(String t) {
+		// TODO replace if else by switch case
+		if (t.equals("string")) {
 			return "String";
-		}
-		else if (t.equals("set"))
-		{
+		} else if (t.equals("set")) {
 			return "java.util.Set";
-		}
-		else if (t.equals("sequence"))
-		{
+		} else if (t.equals("sequence")) {
 			return "java.util.List";
-		}
-		else if (t.equals("class"))
-		{
+		} else if (t.equals("class")) {
 			return "Class";
-		}
-		else
-		{
+		} else {
 			return t;
 		}
 	}

@@ -13,27 +13,24 @@ import java.util.Collection;
 /**
  * @author luc.hogie
  */
-public class GraphVizBasedViewFactory extends AbstractWriter
-{
+public class GraphVizBasedViewFactory extends AbstractWriter {
 	private final String outputType;
 
     public final static Collection<String> supportedOutputTypes = Arrays
-            .asList(new String[] { "canon", "dot", "xdot", "cmap", "dia",
-                    "fig", "gd", "gd2", "gif", "hpgl", "imap", "cmapx",
-                    "ismap", "jpg", "jpeg", "mif", "mp", "pcl", "pic", "plain",
-                    "plain-ext", "png", "ps", "ps2", "svg", "svgz", "vrml",
-                    "vtx", "wbmp" });
+            .asList("canon", "dot", "xdot", "cmap", "dia",
+					"fig", "gd", "gd2", "gif", "hpgl", "imap", "cmapx",
+					"ismap", "jpg", "jpeg", "mif", "mp", "pcl", "pic", "plain",
+					"plain-ext", "png", "ps", "ps2", "svg", "svgz", "vrml",
+					"vtx", "wbmp");
     
 
-	public GraphVizBasedViewFactory(String type)
-	{
+	public GraphVizBasedViewFactory(String type) {
+		// TODO Check if type is in supportedOutputTypes
 		this.outputType = type;
 	}
 
 	@Override
-	public byte[] writeModel(Model model)
-		throws WriterException
-	{
+	public byte[] writeModel(Model model) throws WriterException {
 		DotWriter dotTextFactory = new DotWriter();
 		byte[] dotText = dotTextFactory.writeModel(model);
 		return Proces.exec("dot", dotText, "-T" + getOutputType());
