@@ -48,7 +48,7 @@ public class Entities
 		return res;
 	}
 
-	public static Entity findEntityByName(Model model, String name)
+	public static Entity findEntityByName(AbstractModel model, String name)
 	{
 		if (model == null) throw new NullPointerException();
 		if (name == null) throw new NullPointerException();

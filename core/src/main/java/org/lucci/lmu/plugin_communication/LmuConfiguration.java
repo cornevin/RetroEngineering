@@ -1,6 +1,6 @@
 package org.lucci.lmu.plugin_communication;
 
-import org.lucci.lmu.domain.Model;
+import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.input.ModelException;
 import org.lucci.lmu.input.ModelFactory;
 import org.lucci.lmu.input.ParseError;
@@ -44,7 +44,7 @@ public class LmuConfiguration {
         File file = new File(url.getPath());
 
         try {
-            Model model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
+            AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
             AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
             if (writer instanceof GraphVizBasedViewFactory) {
                 System.out.println("Start writing model");

@@ -13,8 +13,7 @@ import java.util.Set;
 /**
  * @author luc.hogie
  */
-public class Model extends ModelElement
-{
+public class Model extends ModelElement implements AbstractModel {
 	private Set<Entity> entities = new HashSet<Entity>();
 	private Set<Relation> relations = new HashSet<Relation>();
 	private Set<Group> groups = new HashSet<Group>();
@@ -95,37 +94,6 @@ public class Model extends ModelElement
 		if (r == null)
 		{
 			this.relations.add(newRelation);
-		}
-	}
-
-	public void merge(Model om)
-	{
-		for (Entity e : om.getEntities())
-		{
-			Entity correspondingLocalEntity = Entities.findEntityByName(this, e.getName());
-
-			if (correspondingLocalEntity == null)
-			{
-				this.entities.add(e);
-			}
-			else
-			{
-				correspondingLocalEntity.merge(e);
-			}
-		}
-
-		for (Relation r : om.getRelations())
-		{
-			Relation correspondingLocalRelation = Relations.findRelation(getRelations(), r.getClass(), r.getTailEntity(), r.getHeadEntity());
-
-			if (correspondingLocalRelation == null)
-			{
-				this.relations.add(r);
-			}
-			else
-			{
-				throw new IllegalArgumentException("relation already exist");
-			}
 		}
 	}
 

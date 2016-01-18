@@ -1,6 +1,6 @@
 package org.lucci.lmu.output;
 
-import org.lucci.lmu.domain.Model;
+import org.lucci.lmu.domain.AbstractModel;
 import toools.extern.Proces;
 import toools.io.file.Directory;
 
@@ -35,7 +35,7 @@ public class GraphVizBasedViewFactory extends AbstractWriter {
 	}
 
 	@Override
-	public byte[] writeModel(Model model) throws WriterException {
+	public byte[] writeModel(AbstractModel model) throws WriterException {
 		DotWriter dotTextFactory = new DotWriter();
 		byte[] dotText = dotTextFactory.writeModel(model);
         // TODO find where file is generated

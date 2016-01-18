@@ -17,7 +17,7 @@ public class DotWriter extends AbstractWriter {
     private String fontName = "Times";
 
     @Override
-    public byte[] writeModel(Model model) throws WriterException {
+    public byte[] writeModel(AbstractModel model) throws WriterException {
         StringBuffer buf = new StringBuffer();
         buf.append("digraph ClassDiagram\n{");
         buf.append("\n\tgraph [rankdir=TD,ranksep=0.75];\n\tedge [fontname=\"" + fontName

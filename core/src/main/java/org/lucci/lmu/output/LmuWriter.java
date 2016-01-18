@@ -1,15 +1,6 @@
 package org.lucci.lmu.output;
 
-import org.lucci.lmu.domain.AssociationRelation;
-import org.lucci.lmu.domain.Attribute;
-import org.lucci.lmu.domain.Entity;
-import org.lucci.lmu.domain.InheritanceRelation;
-import org.lucci.lmu.domain.Model;
-import org.lucci.lmu.domain.ModelElement;
-import org.lucci.lmu.domain.Operation;
-import org.lucci.lmu.domain.Relation;
-import org.lucci.lmu.domain.Relations;
-import org.lucci.lmu.domain.Visibility;
+import org.lucci.lmu.domain.*;
 
 /*
  * Created on Oct 3, 2004
@@ -19,7 +10,7 @@ import org.lucci.lmu.domain.Visibility;
  * @author luc.hogie
  */
 public class LmuWriter extends AbstractWriter {
-    public byte[] writeModel(Model model) {
+    public byte[] writeModel(AbstractModel model) {
         StringBuilder text = new StringBuilder();
 
         for (Entity entity : ModelElement.findVisibleModelElements(model.getEntities())) {

@@ -1,14 +1,9 @@
 package org.lucci.lmu.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.lucci.lmu.domain.*;
 import toools.collections.Collections;
 import toools.collections.Filter;
+
+import java.util.*;
 
 
 /*
@@ -30,7 +25,7 @@ public class Relations
 		return Collections.filter(relations, new Filter.ClassFilter(InheritanceRelation.class));
 	}
 
-	public static List<Relation> findRelationsDeclaredBy(Entity entity, Model model)
+	public static List<Relation> findRelationsDeclaredBy(Entity entity, AbstractModel model)
 	{
 		List<Relation> rels = new ArrayList<Relation>();
 

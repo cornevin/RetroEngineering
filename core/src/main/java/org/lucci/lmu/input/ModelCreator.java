@@ -21,7 +21,7 @@ public abstract class ModelCreator {
     protected Map<Class<?>, Entity> primitiveMap;
     protected Map<Entity, Class<?>> entity_class;
 
-    public abstract Model createModel(byte[] data) throws ParseError, ModelException;
+    public abstract AbstractModel createModel(byte[] data) throws ParseError, ModelException;
 
     protected static Class<?> createClassNamed(String fullName) {
         ClassName cn = Clazz.getClassName(fullName);
@@ -37,12 +37,6 @@ public abstract class ModelCreator {
         return DynamicCompiler.compile(fullName, src);
     }
 
-	/*
-	 * public static void main(String[] args) {
-	 * System.out.println(createClassNamed("lucci.Coucou"));
-	 * System.out.println(createClassNamed("Coucou")); }
-	 */
-
     public String computeEntityName(Class<?> c) {
         return c.getName().substring(c.getName().lastIndexOf('.') + 1);
     }
@@ -51,7 +45,7 @@ public abstract class ModelCreator {
         return c.getPackage() == null ? Entity.DEFAULT_NAMESPACE : c.getPackage().getName();
     }
 
-    protected void fillModel(Model model) {
+    protected void fillModel(AbstractModel model) {
         for (Entity entity : new HashSet<Entity>(model.getEntities())) {
             if (!entity.isPrimitive()) {
                 Class<?> clazz = entity_class.get(entity);
@@ -62,7 +56,7 @@ public abstract class ModelCreator {
         }
     }
 
-    private void initInheritance(Class<?> clazz, Entity entity, Model model) {
+    private void initInheritance(Class<?> clazz, Entity entity, AbstractModel model) {
         // this collection will store the super class and super interfaces for
         // the given class
         Set<Class<?>> supers = new HashSet<Class<?>>();
@@ -87,7 +81,7 @@ public abstract class ModelCreator {
         }
     }
 
-    private void initAttributes(Class<?> clazz, Entity entity, Model model) {
+    private void initAttributes(Class<?> clazz, Entity entity, AbstractModel model) {
         System.out.println(clazz);
         System.out.println(clazz.getClassLoader().getClass());
 
@@ -151,7 +145,7 @@ public abstract class ModelCreator {
         }
     }
 
-    private void initOperations(Class<?> clazz, Entity entity, Model model) {
+    private void initOperations(Class<?> clazz, Entity entity, AbstractModel model) {
         try {
             for (Method method : clazz.getDeclaredMethods()) {
                 Entity typeEntity = getEntity(model, method.getReturnType());
@@ -205,7 +199,7 @@ public abstract class ModelCreator {
         }
     }
 
-    private Entity getEntity(Model model, Class<?> c) {
+    private Entity getEntity(AbstractModel model, Class<?> c) {
         Entity e = (Entity) primitiveMap.get(c);
 
         if (e == null) {
@@ -234,7 +228,7 @@ public abstract class ModelCreator {
         }
     }
 
-    public Model createModel(File file) throws ParseError, IOException, ModelException {
+    public AbstractModel createModel(File file) throws ParseError, IOException, ModelException {
         byte[] data = FileUtilities.getFileContent(file);
         return createModel(data);
     }

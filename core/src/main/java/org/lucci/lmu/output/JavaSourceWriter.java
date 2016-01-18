@@ -1,14 +1,9 @@
 package org.lucci.lmu.output;
 
+import org.lucci.lmu.domain.*;
+
 import java.util.Collection;
 import java.util.Iterator;
-
-import org.lucci.lmu.domain.Attribute;
-import org.lucci.lmu.domain.Entity;
-import org.lucci.lmu.domain.Model;
-import org.lucci.lmu.domain.ModelElement;
-import org.lucci.lmu.domain.Operation;
-import org.lucci.lmu.domain.Visibility;
 
 
 
@@ -24,7 +19,7 @@ public class JavaSourceWriter extends AbstractWriter {
 	/* (non-Javadoc)
 	 * @see org.lucci.lmu.ViewFactory#createViewData(org.lucci.lmu.model.ClassDiagram)
 	 */
-	public byte[] writeModel(Model model) throws WriterException {
+	public byte[] writeModel(AbstractModel model) throws WriterException {
 		String source = "";
 		Collection<Entity> entities = ModelElement.findVisibleModelElements(model.getEntities());
 //		Collections.sort(entities, new Comparator<Entity>()

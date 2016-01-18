@@ -1,5 +1,6 @@
 package org.lucci.lmu.input;
 
+import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
@@ -20,8 +21,8 @@ public class FolderAnalyser extends ModelCreator {
     }
 
     @Override
-    public Model createModel(byte[] data) throws ParseError {
-        Model model = new Model();
+    public AbstractModel createModel(byte[] data) throws ParseError {
+        AbstractModel model = new Model();
         primitiveMap.put(void.class, Entities.findEntityByName(model, "void"));
         primitiveMap.put(int.class, Entities.findEntityByName(model, "int"));
         primitiveMap.put(long.class, Entities.findEntityByName(model, "long"));
