@@ -26,7 +26,7 @@ public class LMUPreferencePage
 	public LMUPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("A demonstration of a preference page implementation");
+		setDescription("Settings for LMU4Eclipse plugin");
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class LMUPreferencePage
 	 */
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
-				"&Directory preference:", getFieldEditorParent()));
+				"&Output Directory:", getFieldEditorParent()));
 		addField(
 			new BooleanFieldEditor(
 				PreferenceConstants.P_BOOLEAN,
@@ -45,7 +45,7 @@ public class LMUPreferencePage
 				getFieldEditorParent()));
 
 		addField(new RadioGroupFieldEditor(
-				PreferenceConstants.P_CHOICE,
+				PreferenceConstants.P_FORMAT,
 			"An example of a multiple-choice preference",
 			1,
 			new String[][] { { "&Choice 1", "choice1" }, {

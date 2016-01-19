@@ -21,7 +21,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             class="fr.unice.polytech.rimel.testplugin.ContextMenuHandler"
-            commandId="fr.unice.polytech.rimel.TestPlugin.contextMenuCommand">
+            commandId="fr.unice.polytech.rimel.TestPlugin.lolContextMenuCommand">
       </handler>
    </extension>
    <extension
