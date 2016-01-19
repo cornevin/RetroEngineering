@@ -9,7 +9,7 @@ public class PreferenceConstants {
 
 	public static final String P_BOOLEAN = "booleanPreference";
 
-	public static final String P_CHOICE = "choicePreference";
+	public static final String P_FORMAT = "choicePreference";
 
 	public static final String P_STRING = "stringPreference";
 	
