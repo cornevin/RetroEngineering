@@ -140,6 +140,7 @@ public class DotWriter extends AbstractWriter {
                     buf.append(" -> ");
                     buf.append(quoteNodeNameIfNecessary(String.valueOf(assoc.getContainerEntity().getName().hashCode())));
 
+                    // here is the derp
                     if (assoc.getType() == AssociationRelation.TYPE.ASSOCIATION) {
                         buf.append(" [arrowhead=none");
                     } else if (assoc.getType() == AssociationRelation.TYPE.AGGREGATION) {
