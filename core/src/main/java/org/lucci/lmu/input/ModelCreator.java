@@ -83,7 +83,7 @@ public abstract class ModelCreator {
 
     private void initAttributes(Class<?> clazz, Entity entity, AbstractModel model) {
         System.out.println(clazz);
-        System.out.println(clazz.getClassLoader().getClass());
+      //  System.out.println(clazz.getClassLoader().getClass());
 
         for (Field field : clazz.getDeclaredFields()) {
             // if the field is not static

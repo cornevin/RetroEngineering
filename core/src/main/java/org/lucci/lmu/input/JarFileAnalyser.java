@@ -63,8 +63,6 @@ public class JarFileAnalyser extends ModelCreator {
 			// create a jar file on the disk from the binary data
 			RegularFile jarFile = RegularFile.createTempFile("lmu-", ".jar");
 			jarFile.setContent(FileUtilities.getFileContent(file));
-			System.out.println("YOLO");
-
 
 			ClassLoader classLoader = new URLClassLoader(new URL[] { jarFile.toURL() });
 

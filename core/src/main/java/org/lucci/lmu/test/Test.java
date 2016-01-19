@@ -3,7 +3,9 @@ package org.lucci.lmu.test;
 import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
+import org.lucci.lmu.input.FileAnalyser;
 import org.lucci.lmu.input.JarFileAnalyser;
+import org.lucci.lmu.input.ModelException;
 import org.lucci.lmu.input.ParseError;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.GraphVizBasedViewFactory;
@@ -20,13 +22,13 @@ public class Test {
 	public static void main(String... args) throws ParseError, IOException {
 		URL url = Thread.currentThread().getContextClassLoader().getResource("jfig.jar");
 
-/*        FileAnalyser fileAnalyser = new FileAnalyser();
+        FileAnalyser fileAnalyser = new FileAnalyser();
         try {
             AbstractModel myModel = fileAnalyser.createModel("C:\\Users\\Quentin\\Documents\\SI5\\RetroEngineering\\RetroEngineering\\core\\src\\main\\java\\org\\lucci\\lmu\\input\\ClassFinder.java");
             System.out.println(myModel.getEntities().size());
         } catch (ModelException e) {
             e.printStackTrace();
-        }*/
+        }
 
         AbstractModel model = new JarFileAnalyser().createModel(url.getPath());
 
