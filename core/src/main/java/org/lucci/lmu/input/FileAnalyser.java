@@ -6,22 +6,22 @@ import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
 import toools.io.file.RegularFile;
 
+import java.io.File;
 import java.util.*;
 
-public class FolderAnalyser extends ModelCreator {
+/**
+ * Created by Quentin on 1/19/2016.
+ */
+public class FileAnalyser extends ModelCreator {
 
-    public FolderAnalyser() {
+    public FileAnalyser() {
         this.knownJarFiles = new HashSet<RegularFile>();
         this.primitiveMap = new HashMap<Class<?>, Entity>();
         this.entity_class = new HashMap<Entity, Class<?>>();
     }
 
-    public Collection<RegularFile> getJarFiles() {
-        return this.knownJarFiles;
-    }
-
     @Override
-    public AbstractModel createModel(String path) throws ParseError {
+    public AbstractModel createModel(String path) throws ParseError, ModelException {
         AbstractModel model = new Model();
         primitiveMap.put(void.class, Entities.findEntityByName(model, "void"));
         primitiveMap.put(int.class, Entities.findEntityByName(model, "int"));
@@ -39,28 +39,16 @@ public class FolderAnalyser extends ModelCreator {
         primitiveMap.put(java.util.Date.class, Entities.findEntityByName(model, "date"));
         primitiveMap.put(java.sql.Date.class, Entities.findEntityByName(model, "date"));
 
-        List<Class<?>> classes = ClassFinder.find("org.lucci.lmu.input");
+        RegularFile regularFile = new RegularFile(path);
+        File test = regularFile.toFile();
 
-        // take all the classes in the jar files and convert them to LMU
-        // Entities
-        for (Class<?> thisClass : classes) {
-            // if this is not an anonymous inner class (a.b$1)
-            // we take it into account
-            if (!thisClass.getName().matches(".+\\$[0-9]+")) {
-                Entity entity = new Entity();
-                entity.setName(computeEntityName(thisClass));
-                entity.setNamespace(computeEntityNamespace(thisClass));
-                entity_class.put(entity, thisClass);
-                model.addEntity(entity);
-            }
-        }
+        Entity entity = new Entity();
+        entity.setName(computeEntityName(test.getClass()));
+        entity.setNamespace(computeEntityNamespace(test.getClass()));
+        entity_class.put(entity, test.getClass());
+        model.addEntity(entity);
 
-
-        // at this only the name of entities is known
-        // neither members nor relation are known
-        // let's find them
         super.fillModel(model);
-
         return model;
     }
 }

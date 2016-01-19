@@ -21,7 +21,7 @@ public abstract class ModelCreator {
     protected Map<Class<?>, Entity> primitiveMap;
     protected Map<Entity, Class<?>> entity_class;
 
-    public abstract AbstractModel createModel(byte[] data) throws ParseError, ModelException;
+    public abstract AbstractModel createModel(String path) throws ParseError, ModelException;
 
     protected static Class<?> createClassNamed(String fullName) {
         ClassName cn = Clazz.getClassName(fullName);
@@ -230,7 +230,8 @@ public abstract class ModelCreator {
 
     public AbstractModel createModel(File file) throws ParseError, IOException, ModelException {
         byte[] data = FileUtilities.getFileContent(file);
-        return createModel(data);
+        String path = new String(data);
+        return createModel(path);
     }
 
 }

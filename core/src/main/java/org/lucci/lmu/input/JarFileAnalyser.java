@@ -5,8 +5,10 @@ import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
 import toools.ClassContainer;
 import toools.ClassPath;
+import toools.io.FileUtilities;
 import toools.io.file.RegularFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -33,7 +35,7 @@ public class JarFileAnalyser extends ModelCreator {
 	}
 
 	@Override
-	public Model createModel(byte[] data) throws ParseError {
+	public Model createModel(String path) throws ParseError {
 		Model model = new Model();
 		primitiveMap.put(void.class, Entities.findEntityByName(model, "void"));
 		primitiveMap.put(int.class, Entities.findEntityByName(model, "int"));
@@ -54,9 +56,15 @@ public class JarFileAnalyser extends ModelCreator {
 		try
 		{
 
+
+			URL url = new URL("file://" + path);
+			File file = new File(url.getPath());
+			System.out.println(path);
 			// create a jar file on the disk from the binary data
 			RegularFile jarFile = RegularFile.createTempFile("lmu-", ".jar");
-			jarFile.setContent(data);
+			jarFile.setContent(FileUtilities.getFileContent(file));
+			System.out.println("YOLO");
+
 
 			ClassLoader classLoader = new URLClassLoader(new URL[] { jarFile.toURL() });
 

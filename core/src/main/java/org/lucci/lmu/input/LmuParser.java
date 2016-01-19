@@ -28,15 +28,15 @@ public class LmuParser extends ModelCreator
     private String comment = "";
 
     @Override
-    public Model createModel(byte[] data) throws ParseError, ModelException
+    public Model createModel(String path) throws ParseError, ModelException
     {
-	return createModel(new String(data));
+	return createModel(path);
     }
 
-    public Model createModel(String text) throws ParseError, ModelException
+/*    public Model createModel(String text) throws ParseError, ModelException
     {
 	return createModel(Arrays.asList(text.split("\n")));
-    }
+    }*/
 
     private Model createModel(List<String> lines) throws ParseError, ModelException
     {
