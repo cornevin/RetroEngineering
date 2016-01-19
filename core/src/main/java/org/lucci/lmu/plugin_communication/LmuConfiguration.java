@@ -41,10 +41,9 @@ public class LmuConfiguration {
      */
     public void run(String outputFileName) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(path);
-        File file = new File(url.getPath());
 
         try {
-            AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
+            AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(url.getPath());
             AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
             if (writer instanceof GraphVizBasedViewFactory) {
                 System.out.println("Start writing model");
