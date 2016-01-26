@@ -40,14 +40,17 @@ public class LmuConfiguration {
      * @param outputFileName
      */
     public void run(String outputFileName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(path);
+		File file = new File(path);
 
         try {
-            AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(url.getPath());
+			System.out.println("path:"+path);
+			System.out.println("file:"+file);
+			System.out.println("inputext:"+inputExtension);
+			AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
             AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
             if (writer instanceof GraphVizBasedViewFactory) {
                 System.out.println("Start writing model");
-                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + "/src/main/java/org/lucci/lmu/plugin_communication/" + outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
+                FileUtilities.setFileContent(new File(outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
                 System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType() + "\'");
             }
         } catch (ModelException | ParseError | IOException | WriterException e) {
