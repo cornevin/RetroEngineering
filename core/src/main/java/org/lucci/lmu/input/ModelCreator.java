@@ -20,6 +20,30 @@ public abstract class ModelCreator {
     protected Collection<RegularFile> knownJarFiles;
     protected Map<Class<?>, Entity> primitiveMap;
     protected Map<Entity, Class<?>> entity_class;
+    protected Model model;
+
+    public ModelCreator() {
+        this.knownJarFiles = new HashSet<>();
+        this.primitiveMap = new HashMap<>();
+        this.entity_class = new HashMap<>();
+        this.model = new Model();
+
+        primitiveMap.put(void.class, Entities.findEntityByName(model, "void"));
+        primitiveMap.put(int.class, Entities.findEntityByName(model, "int"));
+        primitiveMap.put(long.class, Entities.findEntityByName(model, "long"));
+        primitiveMap.put(char.class, Entities.findEntityByName(model, "char"));
+        primitiveMap.put(float.class, Entities.findEntityByName(model, "float"));
+        primitiveMap.put(double.class, Entities.findEntityByName(model, "double"));
+        primitiveMap.put(String.class, Entities.findEntityByName(model, "string"));
+        primitiveMap.put(Class.class, Entities.findEntityByName(model, "class"));
+        primitiveMap.put(boolean.class, Entities.findEntityByName(model, "boolean"));
+        primitiveMap.put(Collection.class, Entities.findEntityByName(model, "set"));
+        primitiveMap.put(List.class, Entities.findEntityByName(model, "sequence"));
+        primitiveMap.put(Map.class, Entities.findEntityByName(model, "map"));
+        primitiveMap.put(Object.class, Entities.findEntityByName(model, "object"));
+        primitiveMap.put(java.util.Date.class, Entities.findEntityByName(model, "date"));
+        primitiveMap.put(java.sql.Date.class, Entities.findEntityByName(model, "date"));
+    }
 
     public abstract AbstractModel createModel(String path) throws ParseError, ModelException;
 
