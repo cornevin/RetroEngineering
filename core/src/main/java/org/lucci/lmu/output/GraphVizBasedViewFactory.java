@@ -7,10 +7,6 @@ import toools.io.file.Directory;
 import java.util.Arrays;
 import java.util.Collection;
 
-/*
- * Created on Oct 3, 2004
- */
-
 /**
  * @author luc.hogie
  */

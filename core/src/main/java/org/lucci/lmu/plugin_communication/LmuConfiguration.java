@@ -41,8 +41,8 @@ public class LmuConfiguration {
      * @param outputFileName
      */
     public void run(String outputFileName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(path);
-        File file = new File(url.getPath());
+        //URL url = Thread.currentThread().getContextClassLoader().getResource(path);
+        File file = new File(path);
 
         try {
             AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
