@@ -3,15 +3,8 @@ package org.lucci.lmu.input;
 import java.util.HashMap;
 import java.util.Map;
 
-// USEFULL !
-
-
-/*
- * Created on Oct 11, 2004
- */
-
 /**
- * @author luc.hogie
+ * @author luc.hogie, Quentin Cornevin, Tom Guillermin & Remy Dupanloup
  */
 public abstract class ModelFactory
 {
@@ -24,6 +17,7 @@ public abstract class ModelFactory
 		factoryMap.put("lmu", LmuParser.getParser());
 		factoryMap.put("jar", new JarFileAnalyser());
 		factoryMap.put("package", new FolderAnalyser());
+		factoryMap.put("java", new FileAnalyser());
 	}
 
 	public static ModelCreator getModelFactory(String type)

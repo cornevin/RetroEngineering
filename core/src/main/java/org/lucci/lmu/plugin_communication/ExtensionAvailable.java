@@ -5,7 +5,7 @@ package org.lucci.lmu.plugin_communication;
  */
 public enum ExtensionAvailable {
 
-    JAR("jar"), LMU("lmu"), PACKAGE("package");
+    JAR("jar"), LMU("lmu"), PACKAGE("package"), JAVA("java");
 
     private final String name;
 
