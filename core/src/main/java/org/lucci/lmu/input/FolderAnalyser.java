@@ -4,8 +4,11 @@ import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
+import toools.io.file.AbstractFile;
+import toools.io.file.Directory;
 import toools.io.file.RegularFile;
 
+import java.io.File;
 import java.util.*;
 
 public class FolderAnalyser extends ModelCreator {
@@ -39,28 +42,18 @@ public class FolderAnalyser extends ModelCreator {
         primitiveMap.put(java.util.Date.class, Entities.findEntityByName(model, "date"));
         primitiveMap.put(java.sql.Date.class, Entities.findEntityByName(model, "date"));
 
-        List<Class<?>> classes = ClassFinder.find("org.lucci.lmu.input");
 
-        // take all the classes in the jar files and convert them to LMU
-        // Entities
-        for (Class<?> thisClass : classes) {
-            // if this is not an anonymous inner class (a.b$1)
-            // we take it into account
-            if (!thisClass.getName().matches(".+\\$[0-9]+")) {
-                Entity entity = new Entity();
-                entity.setName(computeEntityName(thisClass));
-                entity.setNamespace(computeEntityNamespace(thisClass));
-                entity_class.put(entity, thisClass);
-                model.addEntity(entity);
-            }
+        Directory directory = new Directory(path);
+        for(AbstractFile abstractFile : directory.getChildFiles()) {
+            File file = abstractFile.toFile();
+            Entity entity = new Entity();
+            entity.setName(computeEntityName(file.getClass()));
+            entity.setNamespace(computeEntityNamespace(file.getClass()));
+            entity_class.put(entity, file.getClass());
+            model.addEntity(entity);
         }
 
-
-        // at this only the name of entities is known
-        // neither members nor relation are known
-        // let's find them
         super.fillModel(model);
-
         return model;
     }
 }
