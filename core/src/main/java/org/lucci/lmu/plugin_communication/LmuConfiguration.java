@@ -7,6 +7,7 @@ import org.lucci.lmu.input.ParseError;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.GraphVizBasedViewFactory;
 import org.lucci.lmu.output.WriterException;
+import org.lucci.lmu.output.WriterFactory;
 import toools.io.FileUtilities;
 import toools.io.file.Directory;
 
@@ -45,12 +46,12 @@ public class LmuConfiguration {
 
         try {
             AbstractModel model = ModelFactory.getModelFactory(inputExtension.toString()).createModel(file);
-            AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
-            if (writer instanceof GraphVizBasedViewFactory) {
+            AbstractWriter writer = WriterFactory.getTextFactory(outputExtension.toString());
+            //if (writer instanceof GraphVizBasedViewFactory) {
                 System.out.println("Start writing model");
-                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + "/src/main/java/org/lucci/lmu/plugin_communication/" + outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
-                System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType() + "\'");
-            }
+                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + "/src/main/java/org/lucci/lmu/plugin_communication/" + outputFileName + "." + writer.getOutputType()), writer.writeModel(model));
+                System.out.println("Output generated with format \'" + writer.getOutputType() + "\'");
+            //}
         } catch (ModelException | ParseError | IOException | WriterException e) {
             e.printStackTrace();
         }

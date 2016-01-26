@@ -6,10 +6,7 @@ import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.input.ModelException;
 import org.lucci.lmu.input.ParseError;
-import org.lucci.lmu.output.AbstractWriter;
-import org.lucci.lmu.output.GraphVizBasedViewFactory;
-import org.lucci.lmu.output.JavaSourceWriter;
-import org.lucci.lmu.output.WriterException;
+import org.lucci.lmu.output.*;
 import toools.io.FileUtilities;
 import toools.io.file.Directory;
 
@@ -31,7 +28,7 @@ public class Test {
         Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 
 		// Try to write the output
-		AbstractWriter writer = AbstractWriter.getTextFactory("pdf");
+		AbstractWriter writer = WriterFactory.getTextFactory("pdf");
 		try {
             if (writer instanceof GraphVizBasedViewFactory){
                 System.out.println("Start writing model");

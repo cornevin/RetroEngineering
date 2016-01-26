@@ -10,11 +10,9 @@ import org.lucci.lmu.plugin_communication.OutputAvailable;
 public class TestRun {
     public static void main(String[] args) {
         LmuConfiguration lmu = new LmuConfiguration();
-        lmu.setInputExtension(ExtensionAvailable.JAR);
-        lmu.setOutputExtension(OutputAvailable.JPEG);
-        lmu.setInput("jfig.jar");
-        lmu.run("testRun");
+        lmu.setInputExtension(ExtensionAvailable.LMU);
+        lmu.setOutputExtension(OutputAvailable.PDF);
+        lmu.setInput("org/lucci/lmu");
+        lmu.run("testRunDOT");
     }
-
-
 }
