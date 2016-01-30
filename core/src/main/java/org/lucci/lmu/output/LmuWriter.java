@@ -10,6 +10,11 @@ import org.lucci.lmu.domain.*;
  * @author luc.hogie
  */
 public class LmuWriter extends AbstractWriter {
+
+    public LmuWriter(){
+        setOutputType("lmu");
+    }
+
     public byte[] writeModel(AbstractModel model) {
         StringBuilder text = new StringBuilder();
 

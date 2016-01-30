@@ -15,6 +15,10 @@ import java.util.Iterator;
  * @author luc.hogie
  */
 public class JavaSourceWriter extends AbstractWriter {
+
+	public JavaSourceWriter(){
+		setOutputType("class");
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.lucci.lmu.ViewFactory#createViewData(org.lucci.lmu.model.ClassDiagram)

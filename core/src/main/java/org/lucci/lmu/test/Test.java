@@ -3,6 +3,10 @@ package org.lucci.lmu.test;
 import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.Entities;
 import org.lucci.lmu.domain.Entity;
+import org.lucci.lmu.input.JarFileAnalyser;
+import org.lucci.lmu.input.ModelException;
+import org.lucci.lmu.input.ParseError;
+import org.lucci.lmu.output.*;
 import org.lucci.lmu.input.*;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.GraphVizBasedViewFactory;
@@ -50,7 +54,7 @@ public class Test {
         Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 
 		// Try to write the output
-		AbstractWriter writer = AbstractWriter.getTextFactory("pdf");
+		AbstractWriter writer = WriterFactory.getTextFactory("pdf");
 		try {
             if (writer instanceof GraphVizBasedViewFactory){
                 System.out.println("Start writing model");

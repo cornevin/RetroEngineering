@@ -6,6 +6,7 @@ import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.GraphVizBasedViewFactory;
 import org.lucci.lmu.output.WriterException;
+import org.lucci.lmu.output.WriterFactory;
 import toools.io.FileUtilities;
 import toools.io.file.Directory;
 

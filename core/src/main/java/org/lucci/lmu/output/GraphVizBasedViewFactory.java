@@ -11,7 +11,6 @@ import java.util.Collection;
  * @author luc.hogie
  */
 public class GraphVizBasedViewFactory extends AbstractWriter {
-	private final String outputType;
 
     public final static Collection<String> supportedOutputTypes = Arrays
             .asList("canon", "dot", "xdot", "cmap", "dia",
@@ -23,11 +22,10 @@ public class GraphVizBasedViewFactory extends AbstractWriter {
 
 	public GraphVizBasedViewFactory(String type) {
         if (supportedOutputTypes.contains(type)) {
-            this.outputType = type;
+            setOutputType(type);
         } else {
-            this.outputType = "jpeg";
+            setOutputType("jpeg");
         }
-
 	}
 
 	@Override
@@ -37,9 +35,5 @@ public class GraphVizBasedViewFactory extends AbstractWriter {
         // TODO find where file is generated
         System.out.println(Directory.getCurrentDirectory());
         return Proces.exec("dot", dotText, "-T" + getOutputType());
-	}
-
-	public String getOutputType() {
-		return outputType;
 	}
 }

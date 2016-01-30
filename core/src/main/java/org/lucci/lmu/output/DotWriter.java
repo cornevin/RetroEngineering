@@ -16,6 +16,14 @@ import java.util.List;
 public class DotWriter extends AbstractWriter {
     private String fontName = "Times";
 
+    public DotWriter(){
+        this("dot");
+    }
+
+    public DotWriter(String type){
+        setOutputType(type);
+    }
+
     @Override
     public byte[] writeModel(AbstractModel model) throws WriterException {
         StringBuffer buf = new StringBuffer();
