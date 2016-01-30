@@ -19,7 +19,7 @@ public class Test {
 	public static void main(String... args) throws ParseError, IOException {
 		URL url = Thread.currentThread().getContextClassLoader().getResource("jfig.jar");
 
-        FileAnalyser fileAnalyser = new FileAnalyser();
+    //    FileAnalyser fileAnalyser = new FileAnalyser();
      //   try {
             ///AbstractModel myModel = fileAnalyser.createModel("C:\\Users\\Quentin\\Documents\\SI5\\RetroEngineering\\RetroEngineering\\core\\src\\main\\java\\org\\lucci\\lmu\\input\\ClassFinder.java");
            // System.out.println(myModel.getEntities().size());
@@ -27,16 +27,25 @@ public class Test {
       //      e.printStackTrace();
        // }
 
-        try {
-            AbstractModel abstractModel = ModelFactory.getModelFactory("package").createModel("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/java/org/lucci/lmu/input/");
-            for(Entity e : abstractModel.getEntities()) {
-                System.out.println(e.getName());
-            }
+/*        try {
+        //    AbstractModel abstractModel = ModelFactory.getModelFactory("package").createModel("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/java/org/lucci/lmu/input/");
+
+
+
+
         } catch (ModelException e) {
             e.printStackTrace();
-        }
+        } */
 
-        AbstractModel model = new JarFileAnalyser().createModel(url.getPath());
+       // AbstractModel model = new JarFileAnalyser().createModel(url.getPath());
+        AbstractModel model = null;
+        model = new JarFileAnalyser().createModelFromJar("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/resources/jfig.jar");
+ /*       try {
+//            model = ModelFactory.getModelFactory("java").createModel("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/java/org/lucci/lmu/input/ParseError.java");
+         //   model = ModelFactory.getModelFactory("java").createModel("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/target/classes/org/lucci/lmu/input/FileAnalyser.class");
+        } catch (ModelException e) {
+            e.printStackTrace();
+        } */
 
         Entity e = Entities.findEntityByName(model, "ConsoleMessage");
 

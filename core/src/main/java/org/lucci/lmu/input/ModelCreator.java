@@ -4,11 +4,8 @@ import org.lucci.lmu.domain.*;
 import org.lucci.lmu.test.DynamicCompiler;
 import toools.ClassName;
 import toools.Clazz;
-import toools.io.FileUtilities;
 import toools.io.file.RegularFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -45,7 +42,7 @@ public abstract class ModelCreator {
         primitiveMap.put(java.sql.Date.class, Entities.findEntityByName(model, "date"));
     }
 
-    public abstract AbstractModel createModel(String path) throws ParseError, ModelException;
+    protected abstract AbstractModel createModel();
 
     protected static Class<?> createClassNamed(String fullName) {
         ClassName cn = Clazz.getClassName(fullName);
@@ -195,26 +192,6 @@ public abstract class ModelCreator {
                     }
 
                     entity.getOperations().add(op);
-
-                    // for (Class<?> exceptionClass :
-                    // method.getExceptionTypes())
-                    // {
-                    // Entity exceptionEntity = Entities.findEntity(model,
-                    // exceptionClass.getName());
-                    //
-                    // if (exceptionEntity == null)
-                    // {
-                    // exceptionEntity = new Entity();
-                    // exceptionEntity.setName(exceptionClass.getName());
-                    // model.getEntities().add(exceptionEntity);
-                    // }
-                    //
-                    // AssociationRelation relation = new
-                    // AssociationRelation(entity, exceptionEntity);
-                    // relation.setLabel("throws");
-                    // model.getRelations().add(relation);
-                    // }
-
                 }
             }
         } catch (NoClassDefFoundError ex) {
@@ -251,11 +228,4 @@ public abstract class ModelCreator {
             return Visibility.PRIVATE;
         }
     }
-
-    public AbstractModel createModel(File file) throws ParseError, IOException, ModelException {
-        byte[] data = FileUtilities.getFileContent(file);
-        String path = new String(data);
-        return createModel(path);
-    }
-
 }

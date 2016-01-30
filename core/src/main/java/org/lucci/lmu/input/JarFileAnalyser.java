@@ -1,5 +1,6 @@
 package org.lucci.lmu.input;
 
+import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.Entity;
 import org.lucci.lmu.domain.Model;
 import toools.ClassContainer;
@@ -22,6 +23,8 @@ import java.util.Collection;
  */
 public class JarFileAnalyser extends ModelCreator {
 
+	private String path;
+
 	public JarFileAnalyser() {
 		super();
 	}
@@ -32,18 +35,10 @@ public class JarFileAnalyser extends ModelCreator {
 	}
 
 	@Override
-	public Model createModel(String path) throws ParseError {
-		try
-		{
-/*			Code pour récuprer la liste des dépendance dans un manifest, faut encore trouvert comment mettre ca propre
-			Manifest m = new JarFile("test").getManifest();
-			Attributes a =  m.getMainAttributes();
-			a.get(Attributes.Name.CLASS_PATH); */
-
+	protected Model createModel() {
+		try {
 			URL url = new URL("file://" + path);
 			File file = new File(url.getPath());
-			System.out.println(path);
-			// create a jar file on the disk from the binary data
 			RegularFile jarFile = RegularFile.createTempFile("lmu-", ".jar");
 			jarFile.setContent(FileUtilities.getFileContent(file));
 
@@ -57,14 +52,8 @@ public class JarFileAnalyser extends ModelCreator {
 				classContainers.add(new ClassContainer(thisJarFile, classLoader));
 			}
 
-			// take all the classes in the jar files and convert them to LMU
-			// Entities
-			for (Class<?> thisClass : classContainers.listAllClasses())
-			{
-				// if this is not an anonymous inner class (a.b$1)
-				// we take it into account
-				if (!thisClass.getName().matches(".+\\$[0-9]+"))
-				{
+			for (Class<?> thisClass : classContainers.listAllClasses()) {
+				if (!thisClass.getName().matches(".+\\$[0-9]+")) {
 					Entity entity = new Entity();
 					entity.setName(computeEntityName(thisClass));
 					entity.setNamespace(computeEntityNamespace(thisClass));
@@ -73,17 +62,16 @@ public class JarFileAnalyser extends ModelCreator {
 				}
 			}
 
-			// at this only the name of entities is known
-			// neither members nor relation are known
-			// let's find them
 			fillModel(model);
 			jarFile.delete();
-		}
-		catch (IOException ex)
-		{
+		} catch (IOException ex) {
 			throw new IllegalStateException();
 		}
-
 		return model;
+	}
+
+	public AbstractModel createModelFromJar(String path) {
+		this.path = path;
+		return createModel();
 	}
 }
