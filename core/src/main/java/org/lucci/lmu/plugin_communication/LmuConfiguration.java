@@ -68,7 +68,7 @@ public class LmuConfiguration {
 
 
     private void drawModel(AbstractModel model) {
-        AbstractWriter writer = AbstractWriter.getTextFactory(outputExtension.toString());
+        AbstractWriter writer = WriterFactory.getTextFactory(outputExtension.toString());
         if (writer instanceof GraphVizBasedViewFactory) {
             System.out.println("Start writing model");
             try {

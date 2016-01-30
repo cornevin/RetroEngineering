@@ -17,6 +17,4 @@ public class TestRun {
         lmu.setInputPath("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/resources/jfig.jar");
         lmu.createModel();
     }
-
-
 }
