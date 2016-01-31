@@ -1,9 +1,6 @@
 package org.lucci.lmu.input;
 
 import org.lucci.lmu.domain.*;
-import org.lucci.lmu.test.DynamicCompiler;
-import toools.ClassName;
-import toools.Clazz;
 import toools.io.file.RegularFile;
 
 import java.lang.reflect.*;
@@ -43,20 +40,6 @@ public abstract class ModelCreator {
     }
 
     protected abstract AbstractModel createModel();
-
-    protected static Class<?> createClassNamed(String fullName) {
-        ClassName cn = Clazz.getClassName(fullName);
-        String src = "";
-
-        if (cn.pkg != null) {
-            src += "package " + cn.pkg + ";";
-        }
-
-        src += "public class " + cn.name + " {}";
-
-        // System.out.println(src);
-        return DynamicCompiler.compile(fullName, src);
-    }
 
     public String computeEntityName(Class<?> c) {
         return c.getName().substring(c.getName().lastIndexOf('.') + 1);
