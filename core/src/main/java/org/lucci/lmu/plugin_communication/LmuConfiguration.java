@@ -12,6 +12,8 @@ import toools.io.file.Directory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -67,7 +69,10 @@ public class LmuConfiguration {
         if (writer instanceof GraphVizBasedViewFactory) {
             System.out.println("Start writing model");
             try {
-                FileUtilities.setFileContent(new File(Directory.getCurrentDirectory() + "/src/main/java/org/lucci/lmu/plugin_communication/" + this.outputFileName + "." + ((GraphVizBasedViewFactory) writer).getOutputType()), writer.writeModel(model));
+				Path outputPath = Paths.get(this.outputFileName + "." + writer.getOutputType());
+				outputPath = outputPath.toAbsolutePath();
+
+                FileUtilities.setFileContent(outputPath.toFile(), writer.writeModel(model));
             } catch (IOException  | WriterException e) {
                 e.printStackTrace();
             }
