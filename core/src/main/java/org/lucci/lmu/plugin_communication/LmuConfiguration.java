@@ -4,7 +4,6 @@ import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.input.ClazzAnalyser;
 import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.output.AbstractWriter;
-import org.lucci.lmu.output.GraphVizBasedViewFactory;
 import org.lucci.lmu.output.WriterException;
 import org.lucci.lmu.output.WriterFactory;
 import toools.io.FileUtilities;

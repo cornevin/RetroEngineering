@@ -27,7 +27,7 @@ public class WriterFactory {
 
         if (f == null) {
             // return a GraphVizBased on type, if type is not allow return a jpeg image
-            return new GraphVizBasedViewFactory(type);
+            return new GraphVizBasedView(type);
         } else {
             return f;
         }

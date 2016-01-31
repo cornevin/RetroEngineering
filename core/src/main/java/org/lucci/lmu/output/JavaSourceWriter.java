@@ -17,7 +17,7 @@ import java.util.Iterator;
 public class JavaSourceWriter extends AbstractWriter {
 
 	public JavaSourceWriter(){
-		setOutputType("class");
+		setOutputType("java");
 	}
 	
 	/* (non-Javadoc)
@@ -104,7 +104,6 @@ public class JavaSourceWriter extends AbstractWriter {
 
 
 	private String getJavaType(String t) {
-		// TODO replace if else by switch case
 		switch (t) {
 			case "string":
 				return "String";
