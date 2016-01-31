@@ -3,10 +3,13 @@ package fr.unice.polytech.rimel.testplugin;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -64,24 +67,31 @@ public class ContextMenuHandler implements IHandler {
 		List<String> selectedElementsNames = new LinkedList<String>();
 		for (Object o: structured.toArray()) {
 			if (o instanceof IJavaElement) {
-				selectedElementsNames.add(((IJavaElement) o).getElementName());
+				String name = ((IJavaElement) o).getElementName();
+				// Handle default package which has no name
+				if (name.length() == 0) {
+					name = "defaultpackage";
+				}
+				selectedElementsNames.add(name);
+			}
+			else if (o instanceof IFile) {
+				selectedElementsNames.add(((IFile) o).getName());
 			}
 		}
 		String selectionString = String.join("_", selectedElementsNames);
+		System.out.println("Output filename:"+selectionString);
 		String outputPath = outputDir+"/"+selectionString;
 		
 		LmuConfiguration lmu = new LmuConfiguration();
-		SelectionProcessor processor = new SelectionProcessor();
-		List<Class<?>> classes;
+		lmu.setOutputExtension(selectedOutputFormat);
+		lmu.setOuputFileName(outputPath);
+		SelectionProcessor processor = new SelectionProcessor(lmu);
 		try {
-			classes = processor.processSelection(structured);
-			System.out.println("Got "+classes.size()+" classes in input!");
-			lmu.setInputClazzes(classes);
-			lmu.setOutputExtension(OutputAvailable.PNG);
-			lmu.setOuputFileName(outputPath);
-			lmu.createModel();
+			processor.processSelection(structured);
 			System.out.println("Done :D");
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "There was an error!");
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		

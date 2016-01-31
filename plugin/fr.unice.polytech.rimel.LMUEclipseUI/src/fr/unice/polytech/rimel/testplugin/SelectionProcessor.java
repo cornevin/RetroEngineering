@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.management.RuntimeErrorException;
+import javax.swing.JOptionPane;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -18,26 +21,51 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.ISourceManipulation;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.lucci.lmu.plugin_communication.LmuConfiguration;
 
 public class SelectionProcessor {
 	
-	public List<Class<?>> processSelection(IStructuredSelection selection) throws Exception {
-		List<Class<?>> result = new LinkedList<Class<?>>();
+	private LmuConfiguration lmu;
+
+	public SelectionProcessor(LmuConfiguration lmu) {
+		this.lmu = lmu;
+	}
+
+	public void processSelection(IStructuredSelection selection) throws Exception {
+		List<Class<?>> classes = new LinkedList<Class<?>>();
+		boolean containsJar = false;
+		IFile jarFile = null;
 		for (Object selectedObject : selection.toArray()) {
+			if (selectedObject instanceof IFile) {
+				System.out.println("There is a regular JAR file");
+				containsJar = true;
+				jarFile = (IFile) selectedObject;
+				break;
+			}
 			if (selectedObject instanceof IJavaElement) {
-				result.addAll(this.processSource((IJavaElement) selectedObject));
+				classes.addAll(this.processSource((IJavaElement) selectedObject));
 			}
 		}
-		return result;
+		
+		if (!containsJar) {
+			lmu.setInputClazzes(classes);			
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "There is JAR file in the selection, LMU will be only run against it.");
+			lmu.setInputPath(jarFile.getLocation().toFile().getAbsolutePath());
+		}
+		lmu.createModel();
 	}
 	
 	public List<Class<?>> processSource(IJavaElement selection) throws Exception {
+		IClasspathEntry[] classpaths = selection.getJavaProject().getResolvedClasspath(false);
+		
 		IPath projectLocation = selection.getJavaProject().getProject().getLocation();
 		IPath eclipseOutputLocation = selection.getJavaProject()
 				.getOutputLocation()
 				.removeFirstSegments(1);
 		
-		ClassLoader classLoader = this.createClassLoader(projectLocation, eclipseOutputLocation);
+		ClassLoader classLoader = this.createClassLoader(projectLocation, eclipseOutputLocation, classpaths);
 		
 		Set<IPath> sourceFilesToLoad = this.analyzeJavaElement(selection);
 		System.out.println("Got class files to load: "+sourceFilesToLoad.toString());
@@ -92,16 +120,19 @@ public class SelectionProcessor {
 		return set;
 	}
 	
-	private ClassLoader createClassLoader(IPath projectLocation, IPath outputRelativeLocation) {
+	private ClassLoader createClassLoader(IPath projectLocation, IPath outputRelativeLocation, IClasspathEntry[] classpaths) {
+		System.out.println("Got "+classpaths.length+" classpath entries");
 		IPath eclipseAbsoluteOutputPath = projectLocation.append(outputRelativeLocation);
 		
-		URL urls[];
+		URL[] urls = new URL[1];// + classpaths.length];
 		try {
-			urls = new URL[]{
-					eclipseAbsoluteOutputPath.toFile().toURI().toURL()
-			};
+			urls[0] = eclipseAbsoluteOutputPath.toFile().toURI().toURL();
 		} catch (MalformedURLException e2) {
 			throw new RuntimeException(e2);
+		}
+		for (int i = 0; i < classpaths.length; ++i) {
+			IClasspathEntry cp = classpaths[i];
+			System.out.println("\tClasspath entry:" + cp.getPath().toString());
 		}
 		
 		return new URLClassLoader(urls);
