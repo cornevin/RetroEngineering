@@ -1,7 +1,10 @@
 package fr.unice.polytech.rimel.lmueclipseui.preferences;
 
+import java.awt.Label;
+
 import org.eclipse.jface.preference.*;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.lucci.lmu.plugin_communication.OutputAvailable;
 import org.eclipse.ui.IWorkbench;
 import fr.unice.polytech.rimel.testplugin.Activator;
 
@@ -36,23 +39,22 @@ public class LMUPreferencePage
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
+		// Browser for output directory
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
 				"&Output Directory:", getFieldEditorParent()));
-		addField(
-			new BooleanFieldEditor(
-				PreferenceConstants.P_BOOLEAN,
-				"&An example of a boolean preference",
-				getFieldEditorParent()));
 
-		addField(new RadioGroupFieldEditor(
-				PreferenceConstants.P_FORMAT,
-			"An example of a multiple-choice preference",
-			1,
-			new String[][] { { "&Choice 1", "choice1" }, {
-				"C&hoice 2", "choice2" }
-		}, getFieldEditorParent()));
-		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));
+		// Output format
+		// Build the format options
+		String[][] formats = new String[OutputAvailable.values().length][];
+		OutputAvailable[] availableFormatsEnum = OutputAvailable.values();
+		for (int iFormat = 0; iFormat < availableFormatsEnum.length;  ++iFormat) {
+			String rawEnumName = availableFormatsEnum[iFormat].name();
+			formats[iFormat] = new String[] {
+					rawEnumName, rawEnumName
+			};
+		}
+		
+		addField(new ComboFieldEditor(PreferenceConstants.P_FORMAT, "&Choose your preferred output format", formats, getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)
