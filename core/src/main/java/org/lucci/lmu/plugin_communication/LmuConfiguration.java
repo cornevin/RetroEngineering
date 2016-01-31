@@ -43,9 +43,9 @@ public class LmuConfiguration {
     }
 
     public void createModel() throws ConfigurationException {
-        if(path == null && !(classes == null)){
-                createDiagramFromClazzes();
-        } else if(classes == null && !(path == null)) {
+        if (path == null && !(classes == null)) {
+            createDiagramFromClazzes();
+        } else if (classes == null && !(path == null)) {
             createDiagramFromJar();
         } else {
             throw new ConfigurationException();
@@ -66,17 +66,14 @@ public class LmuConfiguration {
 
     private void drawModel(AbstractModel model) {
         AbstractWriter writer = WriterFactory.getTextFactory(outputExtension.toString());
-        if (writer instanceof GraphVizBasedViewFactory) {
-            System.out.println("Start writing model");
-            try {
-				Path outputPath = Paths.get(this.outputFileName + "." + writer.getOutputType());
-				outputPath = outputPath.toAbsolutePath();
-
-                FileUtilities.setFileContent(outputPath.toFile(), writer.writeModel(model));
-            } catch (IOException  | WriterException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Output generated with format \'" + ((GraphVizBasedViewFactory) writer).getOutputType() + "\'");
+        System.out.println("Start writing model");
+        try {
+			Path outputPath = Paths.get(this.outputFileName + "." + writer.getOutputType());
+			outputPath = outputPath.toAbsolutePath();
+            FileUtilities.setFileContent(outputPath.toFile(), writer.writeModel(model));
+        } catch (IOException | WriterException e) {
+            e.printStackTrace();
         }
+        System.out.println("Output generated with format \'" + writer.getOutputType() + "\'");
     }
 }

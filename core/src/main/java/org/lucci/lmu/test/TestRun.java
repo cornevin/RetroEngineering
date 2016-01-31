@@ -24,7 +24,7 @@ public class TestRun {
 
         LmuConfiguration lmu = new LmuConfiguration();
         lmu.setOutputExtension(OutputAvailable.JPEG);
-        lmu.setOuputFileName("test");
+        lmu.setOuputFileName("test2");
        // lmu.setInputPath("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/resources/jfig.jar");
         lmu.setInputClazzes(classList);
         lmu.createModel();
