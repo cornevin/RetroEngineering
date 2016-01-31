@@ -19,15 +19,10 @@ import java.util.List;
  */
 public class LmuConfiguration {
 
-    private ExtensionAvailable inputExtension;
     private OutputAvailable outputExtension;
     private String path;
     private List<Class<?>> classes;
     private String outputFileName;
-
-    public void setInputExtension(ExtensionAvailable extension) {
-        this.inputExtension = extension;
-    }
 
     public void setOutputExtension(OutputAvailable output) {
         this.outputExtension = output;
