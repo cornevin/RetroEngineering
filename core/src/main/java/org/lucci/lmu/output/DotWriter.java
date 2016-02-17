@@ -168,6 +168,18 @@ public class DotWriter extends AbstractWriter {
                     }
 
                     buf.append("];");
+                } else if(relation instanceof  DeploymentUnitRelation) {
+                    buf.append("\n\t");
+                    buf.append(quoteNodeNameIfNecessary(String.valueOf(relation.getTailEntity().getName().hashCode())));
+                    buf.append(" -> ");
+                    buf.append(quoteNodeNameIfNecessary(String.valueOf(relation.getHeadEntity().getName().hashCode())));
+
+                    buf.append(" [arrowtail=vee");
+                    buf.append(",style=dashed");
+                    buf.append(", label=uses");
+
+                    buf.append("];");
+
                 } else {
                     InheritanceRelation heritage = (InheritanceRelation) relation;
                     buf.append("\n\t");
