@@ -17,7 +17,6 @@ public class GraphVizBasedView extends AbstractWriter {
 					"ismap", "jpg", "jpeg", "mif", "mp", "pcl", "pic", "plain",
 					"plain-ext", "png", "ps", "ps2", "svg", "svgz", "vrml",
 					"vtx", "wbmp", "pdf");
-    
 
 	public GraphVizBasedView(String type) {
         if (supportedOutputTypes.contains(type)) {

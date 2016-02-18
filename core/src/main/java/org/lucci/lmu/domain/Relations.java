@@ -13,26 +13,20 @@ import java.util.*;
 /**
  * @author luc.hogie
  */
-public class Relations
-{
-	public static Collection<Relation> findAssociations(Collection<Relation> relations)
-	{
+public class Relations {
+	public static Collection<Relation> findAssociations(Collection<Relation> relations) {
 		return Collections.filter(relations, new Filter.ClassFilter(AssociationRelation.class));
 	}
 
-	public static Collection<Relation> findInheritances(Collection<Relation> relations)
-	{
+	public static Collection<Relation> findInheritances(Collection<Relation> relations) {
 		return Collections.filter(relations, new Filter.ClassFilter(InheritanceRelation.class));
 	}
 
-	public static List<Relation> findRelationsDeclaredBy(Entity entity, AbstractModel model)
-	{
+	public static List<Relation> findRelationsDeclaredBy(Entity entity, AbstractModel model) {
 		List<Relation> rels = new ArrayList<Relation>();
 
-		for (Relation rel : model.getRelations())
-		{
-			if (entity.declareRelation(rel))
-			{
+		for (Relation rel : model.getRelations()) {
+			if (entity.declareRelation(rel)) {
 				rels.add(rel);
 			}
 		}
@@ -40,12 +34,10 @@ public class Relations
 		return rels;
 	}
 
-	public static Collection<Entity> findEntitiesImpliedIn(Collection<Relation> relations)
-	{
+	public static Collection<Entity> findEntitiesImpliedIn(Collection<Relation> relations) {
 		Collection<Entity> entities = new HashSet<Entity>();
 
-		for (Relation relation : relations)
-		{
+		for (Relation relation : relations) {
 			entities.add(relation.getHeadEntity());
 			entities.add(relation.getTailEntity());
 		}
@@ -53,14 +45,11 @@ public class Relations
 		return entities;
 	}
 
-	public static Set<Relation> findRelationsInvolving(Entity entity, Collection<Relation> relations)
-	{
+	public static Set<Relation> findRelationsInvolving(Entity entity, Collection<Relation> relations) {
 		Set<Relation> rels = new HashSet<Relation>();
 
-		for (Relation relation : relations)
-		{
-			if (relation.involve(entity))
-			{
+		for (Relation relation : relations) {
+			if (relation.involve(entity)) {
 				rels.add(relation);
 			}
 		}
@@ -68,12 +57,9 @@ public class Relations
 		return rels;
 	}
 
-	public static Relation findRelation(Set<Relation> relations, Class<?> c, Entity tail, Entity head)
-	{
-		for (Relation r : relations)
-		{
-			if (r.getTailEntity() == tail && r.getHeadEntity() == head && r.getClass() == c)
-			{
+	public static Relation findRelation(Set<Relation> relations, Class<?> c, Entity tail, Entity head) {
+		for (Relation r : relations) {
+			if (r.getTailEntity() == tail && r.getHeadEntity() == head && r.getClass() == c) {
 				return r;
 			}
 		}
@@ -81,33 +67,28 @@ public class Relations
 		return null;
 	}
 
-	public static Set<Relation> findRelationsInvolving(Set<Relation> relations, Entity e1, Entity e2)
-	{
+	public static Set<Relation> findRelationsInvolving(Set<Relation> relations, Entity e1, Entity e2) {
 		Set<Relation> l1 = findRelationsInvolving(e1, relations);
 		Set<Relation> l2 = findRelationsInvolving(e2, relations);
 		return (Set<Relation>) Collections.intersection(l1, l2);
 	}
 
-	public static Set<AssociationRelation> convertAttributesToCompositions(Set<Attribute> attributes, Entity entity, Model model)
-	{
+	public static Set<AssociationRelation> convertAttributesToCompositions(Set<Attribute> attributes, Entity entity, Model model) {
 		Set<AssociationRelation> newRelations = new HashSet<AssociationRelation>();
 
 		// copy the entities into a vector because some entities might be added
 		// to the map
 		// if we don't do that, we get a ConcurentAccessException
 
-		for (Attribute attribute : attributes)
-		{
-			if (attributes.contains(attribute))
-			{
+		for (Attribute attribute : attributes) {
+			if (attributes.contains(attribute)) {
 				Entity attributeType = attribute.getType();
 
 				// it is likely that some entities have been previously removed
 				// from the diagram
 				// (for cleaning purposes for example), we need to inject some
 				// of them
-				if (!model.getEntities().contains(attributeType))
-				{
+				if (!model.getEntities().contains(attributeType)) {
 					model.getEntities().add(attributeType);
 				}
 
@@ -126,26 +107,20 @@ public class Relations
 
 
 
-	public static void removeAssociationsCardinalities(Collection<AssociationRelation> relations)
-	{
-		for (AssociationRelation rel : relations)
-		{
+	public static void removeAssociationsCardinalities(Collection<AssociationRelation> relations) {
+		for (AssociationRelation rel : relations) {
 			rel.setCardinality(null);
 		}
 	}
 
-	public static void removeAssociationsLabels(Collection<AssociationRelation> relations)
-	{
-		for (AssociationRelation rel : relations)
-		{
+	public static void removeAssociationsLabels(Collection<AssociationRelation> relations) {
+		for (AssociationRelation rel : relations) {
 			rel.setLabel(null);
 		}
 	}
 
-	public static void convertInheritanceToComposition(Collection<InheritanceRelation> relations, Model model)
-	{
-		for (InheritanceRelation irel : relations)
-		{
+	public static void convertInheritanceToComposition(Collection<InheritanceRelation> relations, Model model) {
+		for (InheritanceRelation irel : relations) {
 			AssociationRelation arel = new AssociationRelation(irel.getSuperEntity(), irel.getSubEntity());
 			arel.setType(AssociationRelation.TYPE.COMPOSITION);
 			arel.setLabel("extends");
