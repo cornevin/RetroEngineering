@@ -168,7 +168,7 @@ public class DotWriter extends AbstractWriter {
                     }
 
                     buf.append("];");
-                } else if(relation instanceof  DeploymentUnitRelation) {
+                } else if(relation instanceof DeploymentUnitRelation) {
                     buf.append("\n\t");
                     buf.append(quoteNodeNameIfNecessary(String.valueOf(relation.getTailEntity().getName().hashCode())));
                     buf.append(" -> ");
