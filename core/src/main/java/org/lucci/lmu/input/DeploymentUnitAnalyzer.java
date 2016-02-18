@@ -2,10 +2,13 @@ package org.lucci.lmu.input;
 
 import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.domain.DeploymentUnit;
+import org.lucci.lmu.domain.DeploymentUnitRelation;
+import org.lucci.lmu.domain.Entity;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -20,39 +23,72 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
     @Override
     protected AbstractModel createModel() {
         try {
-            /*String jarPath = "";
-            File file = new File(jarPath);
-            JarFile jarFile = new JarFile(file);
-            Manifest manifest = jarFile.getManifest();
-            Map<String, Attributes> entries = manifest.getEntries();
+            JarFile jarFile = new JarFile(this.jarPAth);
+            Manifest m = jarFile.getManifest();
+            Attributes mainAttributes = m.getMainAttributes();
 
-            LOGGER.debug(manifest.getMainAttributes().get(Attributes.Name.MANIFEST_VERSION));
-            entries.forEach((name, attributes) -> LOGGER.debug(name + "\t" + attributes));
-            */
+            DeploymentUnit deploymentUnit = new DeploymentUnit();
+            deploymentUnit.setName(this.jarPAth);
+            Attributes attributes = m.getMainAttributes();
 
 
-            Manifest m = new JarFile(this.jarPAth).getManifest();
-        //    Attributes attributes =  m.getAttributes(Attributes.Name.EXTENSION_NAME.toString());
-            Attributes attributes =  m.getAttributes("Import-Package");
-            Iterator it = attributes.entrySet().iterator();
-            while(it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                DeploymentUnit deploymentUnit = new DeploymentUnit();
-                deploymentUnit.setName((String) pair.getValue());
+            List<Attributes.Name> targetKeys = Arrays.asList(new Attributes.Name("Bundle-ClassPath"));
+            List<String> depencies = new ArrayList<>();
 
-                // TODO : Recursive loop in the jar
-
+            for(Attributes.Name name : targetKeys) {
+                System.out.println("Name : " + name);
+                System.out.println("Result : " + mainAttributes.get(name));
+                String[] splittedResult = ((String) mainAttributes.get(name)).split(",");
+                List<String> stringList = Arrays.asList(splittedResult);
+                depencies.addAll(stringList);
             }
+
+            Entity jar = new DeploymentUnit();
+            String jarName = getDeploymentUnitName(jarFile.getName());
+            jar.setName(jarName);
+            jar.setNamespace(jarName);
+            model.addEntity(jar);
+
+            for(String deploymentUnitName : depencies) {
+                if(! deploymentUnitName.equals(".")) {
+                    String correctName = this.getDeploymentUnitName(deploymentUnitName);
+                    Entity entity = new DeploymentUnit();
+                    entity.setName(correctName);
+                    entity.setNamespace(correctName);
+
+                    model.addEntity(entity);
+                }
+            }
+
+            // Create a relation between the original jar and all the deployment unit
+            for(Entity deploymentEntity : model.getEntities()) {
+                model.addRelation(new DeploymentUnitRelation(jar, deploymentEntity));
+            }
+
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return model;
     }
 
 
-    public void createModelFromJar(String jarPath) {
+    public AbstractModel createModelFromJar(String jarPath) {
         this.jarPAth = jarPath;
+        return createModel();
+    }
+
+    private String getDeploymentUnitName(String deploymentUnitPath) {
+        String[] splittedPath = deploymentUnitPath.split("/");
+        String fileName = splittedPath[splittedPath.length - 1];
+
+        // Problem with DotWritter otherwise
+        fileName = fileName.replace("-", "_");
+        fileName = fileName.replace(".", "_");
+
+        return fileName;
     }
 }

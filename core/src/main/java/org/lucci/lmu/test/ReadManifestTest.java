@@ -1,35 +1,29 @@
 package org.lucci.lmu.test;
 
-import toools.io.file.JarFile;
+import org.lucci.lmu.domain.AbstractModel;
+import org.lucci.lmu.input.DeploymentUnitAnalyzer;
+import org.lucci.lmu.output.AbstractWriter;
+import org.lucci.lmu.output.WriterException;
+import org.lucci.lmu.output.WriterFactory;
+import toools.io.FileUtilities;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by quentin on 09/02/16.
  */
 public class ReadManifestTest {
-    private String jarName = "lmu-eclipse-plugin-bkp_1.0.0.201601261055.jar";
-    private String jarPath;
-    private JarFile jarFile;
 
-    public void setJarPath(){
-        this.jarPath = "/home/remy/Documents/RIMEL/projet/resources/"+jarName;
-    }
+    public static void main(String argc[]) throws WriterException, IOException {
+        DeploymentUnitAnalyzer deploymentUnitAnalyzer = new DeploymentUnitAnalyzer();
+        AbstractModel abstractModel = deploymentUnitAnalyzer.createModelFromJar("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/resources/lmu-eclipse-plugin-bkp_1.0.0.201601261055.jar");
+        Path outputPath = Paths.get("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/test.pdf");
 
-    public JarFile createJarFile(){
-        return jarFile = new JarFile(jarPath);
-    }
 
-    public static void main(String[] args) {
-        ReadManifestTest readManifestTest = new ReadManifestTest();
-        readManifestTest.setJarPath();
-        JarFile jarFile = readManifestTest.createJarFile();
-
-        
-
-        // get Manifest here
-
-        System.out.println(jarFile);
+        AbstractWriter writer = WriterFactory.getTextFactory("pdf");
+        FileUtilities.setFileContent(outputPath.toFile(), writer.writeModel(abstractModel));
+        System.out.println("Work is done !!");
     }
 }
