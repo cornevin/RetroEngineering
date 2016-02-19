@@ -5,6 +5,7 @@ import org.lucci.lmu.domain.DeploymentUnit;
 import org.lucci.lmu.domain.DeploymentUnitRelation;
 import org.lucci.lmu.domain.Entity;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,81 +28,93 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
 
     @Override
     protected AbstractModel createModel() {
-        try {
-            JarFile jarFile = new JarFile(this.jarPAth);
-            Manifest m = jarFile.getManifest();
-            Attributes mainAttributes = m.getMainAttributes();
-
-            DeploymentUnit deploymentUnit = new DeploymentUnit();
-            deploymentUnit.setName(this.jarPAth);
-
-            List<Attributes.Name> targetKeys = Arrays.asList(new Attributes.Name("Bundle-ClassPath"));
-            List<String> depencies = new ArrayList<>();
-
-            for(Attributes.Name name : targetKeys) {
-                System.out.println("Name : " + name);
-                System.out.println("Result : " + mainAttributes.get(name));
-                String[] splittedResult = ((String) mainAttributes.get(name)).split(",");
-                List<String> stringList = Arrays.asList(splittedResult);
-                depencies.addAll(stringList);
-            }
-
-            Entity jar = new DeploymentUnit();
-            String jarName = getDeploymentUnitName(jarFile.getName());
-            jar.setName(jarName);
-            jar.setNamespace(jarName);
-            model.addEntity(jar);
-
-            for(String deploymentUnitName : depencies) {
-                if(this.checkName(deploymentUnitName)) {
-                    String correctName = this.getDeploymentUnitName(deploymentUnitName);
-                    Entity entity = new DeploymentUnit();
-                    entity.setName(correctName);
-                    entity.setNamespace(correctName);
-
-                    model.addEntity(entity);
-                    if(! this.deploymentUnitAlreadyRead.contains(correctName)) {
-                        System.out.println("Nested jar : " +  correctName);
-                    }
-                }
-            }
-
-            // Create a relation between the original jar and all the deployment unit
-            for(Entity deploymentEntity : model.getEntities()) {
-                model.addRelation(new DeploymentUnitRelation(jar, deploymentEntity));
-            }
-
-
-
-            Enumeration<JarEntry> enums = jarFile.entries();
-            while (enums.hasMoreElements()) {
-                String tempDirectory = "temp_lmu_directory";
-                JarEntry jarEntry = enums.nextElement();
-                String fileName = jarEntry.getName();
-                if(fileName.endsWith(".jar") && depencies.contains(fileName)) {
-                    InputStream in = jarFile.getInputStream(jarEntry);
-                    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-                    FileOutputStream out = new FileOutputStream(tempDirectory + "/" + fileName);
-                    while (in.available() > 0) {
-                        out.write(in.read());
-                    }
-                    out.close();
-                    in.close();
-
-                }
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        this.recursiveAnalyze(this.jarPAth);
         return model;
     }
 
-    private void readDeploymentUnit(JarFile jarFile) throws IOException {
 
+    private void recursiveAnalyze(String myJarPath) {
+        String fileNameLOL = getDeploymentUnitName(myJarPath);
+        if(! this.deploymentUnitAlreadyRead.contains(fileNameLOL)) {
+            System.out.println("File Name lololol :  " + fileNameLOL);
+            try {
+                JarFile jarFile = new JarFile(myJarPath);
+                Manifest m = jarFile.getManifest();
+                if(m != null) {
+                    Attributes mainAttributes = m.getMainAttributes();
+
+                    DeploymentUnit deploymentUnit = new DeploymentUnit();
+                    deploymentUnit.setName(myJarPath);
+
+                    List<Attributes.Name> targetKeys = Arrays.asList(new Attributes.Name("Bundle-ClassPath"));
+                    List<String> depencies = new ArrayList<>();
+
+                    for (Attributes.Name name : targetKeys) {
+                        System.out.println("Name : " + name);
+                        System.out.println("Result : " + mainAttributes.get(name));
+                        if(mainAttributes.get(name) != null) {
+                            String[] splittedResult = ((String) mainAttributes.get(name)).split(",");
+                            List<String> stringList = Arrays.asList(splittedResult);
+                            depencies.addAll(stringList);
+                        }
+                    }
+
+                    Entity jar = new DeploymentUnit();
+                    String jarName = getDeploymentUnitName(jarFile.getName());
+                    jar.setName(jarName);
+                    jar.setNamespace(jarName);
+                    model.addEntity(jar);
+
+                    for (String deploymentUnitName : depencies) {
+                        if (this.checkName(deploymentUnitName)) {
+                            String correctName = this.getDeploymentUnitName(deploymentUnitName);
+                            Entity entity = new DeploymentUnit();
+                            entity.setName(correctName);
+                            entity.setNamespace(correctName);
+
+                            model.addEntity(entity);
+                            if (!this.deploymentUnitAlreadyRead.contains(correctName)) {
+                                System.out.println("Nested jar : " + correctName);
+                            }
+                        }
+                    }
+
+                    // Create a relation between the original jar and all the deployment unit
+                    for (Entity deploymentEntity : model.getEntities()) {
+                        model.addRelation(new DeploymentUnitRelation(jar, deploymentEntity));
+                    }
+
+
+                    Enumeration<JarEntry> enums = jarFile.entries();
+                    while (enums.hasMoreElements()) {
+                        String tempDirectory = "temp_lmu_directory";
+                        new File(tempDirectory).mkdir();
+
+                        JarEntry jarEntry = enums.nextElement();
+                        String fileName = jarEntry.getName();
+                        if (fileName.endsWith(".jar") && depencies.contains(fileName)) {
+                            InputStream in = jarFile.getInputStream(jarEntry);
+                            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                            FileOutputStream out = new FileOutputStream(tempDirectory + "/" + fileName);
+                            while (in.available() > 0) {
+                                out.write(in.read());
+                            }
+                            out.close();
+                            in.close();
+                            //String jarFilePath = myJarPath + File.separator + fileName;
+                            String nestedPath = System.getProperty("user.dir") + File.separator + tempDirectory + File.separator + fileName;
+                            //System.out.println("Nested jar path : " + System.getProperty("user.dir") + File.separator + tempDirectory + File.separator + fileName);
+                            this.recursiveAnalyze(nestedPath);
+                        }
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     /**
      * This method check the name of the depencies and return true if the name is match a jar file
@@ -119,18 +132,6 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
         return false;
     }
 
-
-    private void openJar(String[] jarsName) {
-        for(int i = 0; i < jarsName.length; i++) {
-            System.out.println(jarsName[i]);
-        }
-        ZipExploder ze = new ZipExploder(false);
-        try {
-            ze.process(jarsName, "/home/quentin/Documents/SI5/Retro/RetroEngineering/");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public AbstractModel createModelFromJar(String jarPath) {
         this.jarPAth = jarPath;
