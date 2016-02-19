@@ -3,6 +3,7 @@ package org.lucci.lmu.plugin_communication;
 import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.input.ClazzAnalyser;
 import org.lucci.lmu.input.JarFileAnalyser;
+import org.lucci.lmu.input.PluginAnalyser;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.WriterException;
 import org.lucci.lmu.output.WriterFactory;
@@ -20,17 +21,26 @@ import java.util.List;
  */
 public class LmuConfiguration {
 
-    private OutputAvailable outputExtension;
-    private String path;
+    private String classesPath;
     private List<Class<?>> classes;
+
+    private String pluginPath;
+
+    private OutputAvailable outputExtension;
     private String outputFileName;
+
+    private AbstractModel model;
 
     public void setOutputExtension(OutputAvailable output) {
         this.outputExtension = output;
     }
 
     public void setInputPath(String path) {
-        this.path = path;
+        this.classesPath = path;
+    }
+
+    public void setInputPluginPath(String path){
+        this.pluginPath = path;
     }
 
     public void setOuputFileName(String outoutFileName) {
@@ -42,10 +52,12 @@ public class LmuConfiguration {
     }
 
     public void createModel() throws ConfigurationException {
-        if (path == null && !(classes == null)) {
+        if (classesPath == null && classes != null && pluginPath == null) {
             createDiagramFromClazzes();
-        } else if (classes == null && !(path == null)) {
+        } else if (classes == null && classesPath != null && pluginPath == null) {
             createDiagramFromJar();
+        } else if (pluginPath != null && classesPath == null && classes == null) {
+            createDiagramFromPlugin();
         } else {
             throw new ConfigurationException();
         }
@@ -53,12 +65,17 @@ public class LmuConfiguration {
 
 
     private void createDiagramFromJar() {
-        AbstractModel model = new JarFileAnalyser().createModelFromJar(this.path);
+        model = new JarFileAnalyser().createModelFromJar(this.classesPath);
         drawModel(model);
     }
 
     private void createDiagramFromClazzes() {
-        AbstractModel model = new ClazzAnalyser().createModelFromClazzes(this.classes);
+        model = new ClazzAnalyser().createModelFromClazzes(this.classes);
+        drawModel(model);
+    }
+
+    private void createDiagramFromPlugin(){
+        model = new PluginAnalyser().createModelFromPlugin(this.pluginPath);
         drawModel(model);
     }
 

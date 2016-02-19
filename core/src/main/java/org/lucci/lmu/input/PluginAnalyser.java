@@ -59,7 +59,6 @@ public class PluginAnalyser extends ModelCreator {
 
     @Override
     protected AbstractModel createModel() {
-        Map<String, Set<String>> dependenciesMap = new HashMap<>();
 
         Set<String> dependencies = new HashSet<>();
 
@@ -84,7 +83,6 @@ public class PluginAnalyser extends ModelCreator {
             }
         }
 
-
         String rootName = path.substring(path.lastIndexOf(File.separator) + 1);
         System.out.println("Plugin name : " + rootName);
         Entity root = new DeploymentUnit();
@@ -93,11 +91,9 @@ public class PluginAnalyser extends ModelCreator {
         model.addEntity(root);
 
         for(String depencyName : dependencies) {
-            System.out.println("LOLOLOLOL : " + depencyName);
             Entity entity = new DeploymentUnit();
             entity.setName(depencyName);
             entity.setNamespace(depencyName);
-
             model.addEntity(entity);
         }
 
@@ -105,8 +101,6 @@ public class PluginAnalyser extends ModelCreator {
             model.addRelation(new DeploymentUnitRelation(root, entity));
         }
 
-
-        dependenciesMap.put(path.substring(path.lastIndexOf(File.separator) + 1), dependencies);
         return model;
     }
 

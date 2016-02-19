@@ -23,7 +23,7 @@ public class ReadManifestTest {
 
         PluginAnalyser pluginAnalyser = new PluginAnalyser();
         AbstractModel abstractModel = pluginAnalyser.createModelFromPlugin(Directory.getCurrentDirectory().getPath()+"/../plugin/fr.unice.polytech.rimel.LMUEclipseUI");
-        Path outputPath = Paths.get("/home/quentin/Documents/SI5/Retro/RetroEngineering/core/test.pdf");
+        Path outputPath = Paths.get("/home/remy/Bureau/test.pdf");
 
 
         AbstractWriter writer = WriterFactory.getTextFactory("pdf");
