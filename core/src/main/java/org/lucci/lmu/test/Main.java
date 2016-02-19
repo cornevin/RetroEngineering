@@ -11,7 +11,7 @@ public class Main {
         PluginAnalyser reader = new PluginAnalyser();
         String path = Directory.getCurrentDirectory().getPath()+"/../plugin/fr.unice.polytech.rimel.LMUEclipseUI";
         System.out.println(path);
-   //     Map<String, Set<String>> map = reader.getDependenciesByPath(path);
-    //    System.out.println(map);
+    //  Map<String, Set<String>> map = reader.getDependenciesByPath(path);
+    //  System.out.println(map);
     }
 }

@@ -53,7 +53,7 @@ public class LmuConfiguration {
 
     public void createModel() throws ConfigurationException {
         if (classesPath == null && classes != null && pluginPath == null) {
-            createDiagramFromClazzes();
+            createDiagramFromClasses();
         } else if (classes == null && classesPath != null && pluginPath == null) {
             createDiagramFromJar();
         } else if (pluginPath != null && classesPath == null && classes == null) {
@@ -63,13 +63,12 @@ public class LmuConfiguration {
         }
     }
 
-
     private void createDiagramFromJar() {
         model = new JarFileAnalyser().createModelFromJar(this.classesPath);
         drawModel(model);
     }
 
-    private void createDiagramFromClazzes() {
+    private void createDiagramFromClasses() {
         model = new ClazzAnalyser().createModelFromClazzes(this.classes);
         drawModel(model);
     }
