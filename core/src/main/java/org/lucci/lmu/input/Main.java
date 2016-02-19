@@ -1,4 +1,4 @@
-package org.lucci.lmu.plugin_analyse;
+package org.lucci.lmu.input;
 
 import toools.io.file.Directory;
 
@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Main {
     public static void main(String[] args) {
-        DependenciesReader reader = new DependenciesReader();
+        PluginAnalyser reader = new PluginAnalyser();
         String path = Directory.getCurrentDirectory().getPath()+"/../plugin/fr.unice.polytech.rimel.LMUEclipseUI";
         System.out.println(path);
         Map<String, Set<String>> map = reader.getDependenciesByPath(path);
