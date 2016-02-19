@@ -2,15 +2,14 @@ package org.lucci.lmu.plugin_communication;
 
 import org.lucci.lmu.domain.AbstractModel;
 import org.lucci.lmu.input.ClazzAnalyser;
+import org.lucci.lmu.input.DeploymentUnitAnalyzer;
 import org.lucci.lmu.input.JarFileAnalyser;
 import org.lucci.lmu.input.PluginAnalyser;
 import org.lucci.lmu.output.AbstractWriter;
 import org.lucci.lmu.output.WriterException;
 import org.lucci.lmu.output.WriterFactory;
 import toools.io.FileUtilities;
-import toools.io.file.Directory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,11 +24,16 @@ public class LmuConfiguration {
     private List<Class<?>> classes;
 
     private String pluginPath;
+    private String jarUnitPath;
 
     private OutputAvailable outputExtension;
     private String outputFileName;
 
     private AbstractModel model;
+
+    public void setJarUnitPath(String jarUnitPath) {
+        this.jarUnitPath = jarUnitPath;
+    }
 
     public void setOutputExtension(OutputAvailable output) {
         this.outputExtension = output;
@@ -52,12 +56,18 @@ public class LmuConfiguration {
     }
 
     public void createModel() throws ConfigurationException {
-        if (classesPath == null && classes != null && pluginPath == null) {
-            createDiagramFromClasses();
-        } else if (classes == null && classesPath != null && pluginPath == null) {
-            createDiagramFromJar();
-        } else if (pluginPath != null && classesPath == null && classes == null) {
-            createDiagramFromPlugin();
+        if(outputFileName != null) {
+            if (classesPath == null && classes != null && pluginPath == null && jarUnitPath == null) {
+                createDiagramFromClazzes();
+            } else if (classes == null && classesPath != null && pluginPath == null && jarUnitPath == null) {
+                createDiagramFromJar();
+            } else if (pluginPath != null && classesPath == null && classes == null && jarUnitPath == null) {
+                createDiagramFromPlugin();
+            } else if (jarUnitPath != null && pluginPath == null && classesPath == null && classes == null) {
+                createUnitDiagramFromJar();
+            } else {
+                throw new ConfigurationException();
+            }
         } else {
             throw new ConfigurationException();
         }
@@ -68,7 +78,7 @@ public class LmuConfiguration {
         drawModel(model);
     }
 
-    private void createDiagramFromClasses() {
+    private void createDiagramFromClazzes() {
         model = new ClazzAnalyser().createModelFromClazzes(this.classes);
         drawModel(model);
     }
@@ -78,6 +88,10 @@ public class LmuConfiguration {
         drawModel(model);
     }
 
+    private void createUnitDiagramFromJar() {
+        model = new DeploymentUnitAnalyzer().createModelFromJar(this.jarUnitPath);
+        drawModel(model);
+    }
 
     private void drawModel(AbstractModel model) {
         AbstractWriter writer = WriterFactory.getTextFactory(outputExtension.toString());
