@@ -16,6 +16,17 @@
             </parameter>
          </defaultHandler>
       </command>
+      <command
+            id="fr.unice.polytech.rimel.TestPlugin.contextMenuCommand2"
+            name="contextMenuAnalysisCommand">
+         <defaultHandler
+               class="fr.unice.polytech.rimel.testplugin.ContextMenuAnalysisHandler">
+            <parameter
+                  name="fr.unice.polytech.rimel.LMUEclipseUI.parameter1"
+                  value="fr.unice.polytech.rimel.LMUEclipseUI.parameter1">
+            </parameter>
+         </defaultHandler>
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -54,6 +65,36 @@
 			              </or>
 				      </iterate>
 			   	  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="fr.unice.polytech.rimel.TestPlugin.contextMenuCommand2"
+                  label="Analyse d&apos;unité de dépendence"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="true">
+                  <with
+                        variable="activeMenuSelection">
+                     <iterate
+                           ifEmpty="false">
+                        <or>
+                           <adapt
+                                 type="org.eclipse.core.resources.IResource">
+                              <test
+                                    property="org.eclipse.core.resources.extension"
+                                    value="jar">
+                              </test>
+                           </adapt>
+                           <adapt
+                                 type="org.eclipse.core.resources.IResource">
+                              <test
+                                    property="org.eclipse.core.resources.extension"
+                                    value="jar">
+                              </test>
+                           </adapt>
+                        </or>
+                     </iterate>
+                  </with>
                </visibleWhen>
             </command>
          </menu>

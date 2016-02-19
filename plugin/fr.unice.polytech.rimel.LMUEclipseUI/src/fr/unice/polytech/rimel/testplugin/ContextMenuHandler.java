@@ -38,6 +38,10 @@ public class ContextMenuHandler implements IHandler {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		String formatName = prefs.getString(PreferenceConstants.P_FORMAT);
 		String outputDir =  prefs.getString(PreferenceConstants.P_PATH);
+		if (outputDir.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Error: you did not defined the output directory. To do so, go to Window -> Preferences -> LMU Pettings.");
+			return null;
+		}
 		
 		OutputAvailable selectedOutputFormat;
 		try {
@@ -88,6 +92,7 @@ public class ContextMenuHandler implements IHandler {
 		SelectionProcessor processor = new SelectionProcessor(lmu);
 		try {
 			processor.processSelection(structured);
+			JOptionPane.showMessageDialog(null, "Success! File created: "+outputPath+"."+selectedOutputFormat.name().toLowerCase());
 			System.out.println("Done :D");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "There was an error!");
