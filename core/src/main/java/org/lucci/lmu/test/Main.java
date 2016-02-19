@@ -1,5 +1,6 @@
-package org.lucci.lmu.input;
+package org.lucci.lmu.test;
 
+import org.lucci.lmu.input.PluginAnalyser;
 import toools.io.file.Directory;
 
 import java.util.Map;

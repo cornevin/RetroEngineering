@@ -15,8 +15,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import toools.io.FileUtilities;
-
 /**
  * Created by remy on 18/02/16.
  */
