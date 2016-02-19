@@ -5,13 +5,17 @@ import org.lucci.lmu.domain.DeploymentUnit;
 import org.lucci.lmu.domain.DeploymentUnitRelation;
 import org.lucci.lmu.domain.Entity;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.*;
+import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 /**
  * Created by quentin on 08/02/16.
@@ -25,7 +29,6 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
     protected AbstractModel createModel() {
         try {
             JarFile jarFile = new JarFile(this.jarPAth);
-           // readDeploymentUnit(jarFile);
             Manifest m = jarFile.getManifest();
             Attributes mainAttributes = m.getMainAttributes();
 
@@ -49,17 +52,6 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
             jar.setNamespace(jarName);
             model.addEntity(jar);
 
-            String[] test = new String[1];
-            test[0] = "/home/quentin/Documents/SI5/Retro/RetroEngineering/core/src/main/resources/lmu-eclipse-plugin-bkp_1.0.0.201601261055.jar";
-//            openJar(test);
-
-
-
-        //    JarFile jf = new JarFile( "test.jar" );
-            JarOutputStream jos = new JarOutputStream( new FileOutputStream( new File( "resources/log4j-api-2.5.jar" ) ) );
-            Pack200.newUnpacker().unpack( jarFile.getInputStream( jarFile.getJarEntry( "resources/log4j-api-2.5.jar" ) ), jos );
-            jos.close();
-
             for(String deploymentUnitName : depencies) {
                 if(this.checkName(deploymentUnitName)) {
                     String correctName = this.getDeploymentUnitName(deploymentUnitName);
@@ -69,39 +61,37 @@ public class DeploymentUnitAnalyzer extends ModelCreator{
 
                     model.addEntity(entity);
                     if(! this.deploymentUnitAlreadyRead.contains(correctName)) {
-
-
-                        System.out.println("Nested jar : " + this.jarPAth + "/resources/" + correctName);
-//                        JarFile test = new JarFile (this.jarPAth + "/resources/" + correctName);
-
-  //                      try {
-//                            URL url = new URL(this.jarPAth);
-  //                          FileSystem fileSystem = FileSystems.newFileSystem(url.toURI(), null);
-
-
-
-                       // } catch (URISyntaxException e) {
-                        //    e.printStackTrace();
-                       // }
-                  /*      Path zipfile = Path.get("c:/zips/zip1.zip");
-                        Map<String, String> env = new HashMap();
-                        FileSystem manager = FileSystems.newFileSystem(zipfile, env,null);
-                        Path path = manager.getPath("/jarCompress1.jar/META-INF/MANIFEST.MF");
-                        System.out.println("Reading input stream");
-                        BufferedInputStream bis = new BufferedInputStream(path.newInputStream());
-                        int ch = -1;
-                        while ((ch = bis.read()) != -1) {
-                            System.out.print((char) ch);
-                        } */
+                        System.out.println("Nested jar : " +  correctName);
                     }
                 }
             }
-       //     openJar(depencies.toArray(new String[depencies.size()])); TODO ici !!!
 
             // Create a relation between the original jar and all the deployment unit
             for(Entity deploymentEntity : model.getEntities()) {
                 model.addRelation(new DeploymentUnitRelation(jar, deploymentEntity));
             }
+
+
+
+            Enumeration<JarEntry> enums = jarFile.entries();
+            while (enums.hasMoreElements()) {
+                String tempDirectory = "temp_lmu_directory";
+                JarEntry jarEntry = enums.nextElement();
+                String fileName = jarEntry.getName();
+                if(fileName.endsWith(".jar") && depencies.contains(fileName)) {
+                    InputStream in = jarFile.getInputStream(jarEntry);
+                    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                    FileOutputStream out = new FileOutputStream(tempDirectory + "/" + fileName);
+                    while (in.available() > 0) {
+                        out.write(in.read());
+                    }
+                    out.close();
+                    in.close();
+
+                }
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
